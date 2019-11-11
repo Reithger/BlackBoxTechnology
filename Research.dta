@@ -1,0 +1,9 @@
+"research_a" : D : {
+	"name" : s : "research_a",
+	"prerequisites" : s* : [],
+	"category" : s : "General",
+	"time" : i : 3,
+	"effect" : s* : ["prod:+1"],
+	"impacts" : s* : ["hazard:fire"],
+	"chances" : d* : [.3],
+};
