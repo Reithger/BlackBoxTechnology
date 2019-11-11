@@ -298,7 +298,50 @@ public class Data {
 	
 	@Override
 	public String toString() {
-		return data.toString();
+		return toString(0);
+	}
+	
+	private String toString(int depth){
+		StringBuilder out = new StringBuilder();
+		String fbuffer = "";
+		for(int i = 0; i < depth ; i++) {
+			fbuffer += "\t";
+		}
+		out.append(fbuffer + getTitle() + SEPARATOR + DAT + SEPARATOR + "{\n");
+		String buffer = fbuffer + "\t";
+		for(String s : data.keySet()) {
+			switch(types.get(s)) {
+				case DAT :
+					out.append(this.getDataset(s).toString(depth + 1));
+					break;
+				case INT : 
+					out.append(buffer + "\"" + s + "\"" +  SEPARATOR + INT + SEPARATOR + this.getInt(s) + ",\n");
+					break;
+				case INT_ARR :
+					out.append(buffer + "\"" + s + "\"" +  SEPARATOR + INT_ARR + SEPARATOR + Arrays.toString(this.getIntArray(s)) + ",\n");
+					break;
+				case DBL :
+					out.append(buffer + "\"" + s + "\"" +  SEPARATOR + DBL + SEPARATOR + this.getDouble(s) + ",\n");
+					break;
+				case DBL_ARR :
+					out.append(buffer + "\"" + s + "\"" +  SEPARATOR + DBL_ARR + SEPARATOR + Arrays.toString(this.getDoubleArray(s)) + ",\n");
+					break;
+				case STR :
+					out.append(buffer + "\"" + s + "\"" +  SEPARATOR + STR + SEPARATOR + "\"" + this.getString(s).replaceAll("\"",  "\\\\\"") + "\",\n");
+					break;
+				case STR_ARR :
+					String[] arr = this.getStringArray(s);
+					for(int i = 0; i < arr.length; i++) {
+						arr[i] = "\"" + arr[i].replaceAll("\"", "\\\\\"") + "\"";
+					}
+					out.append(buffer + "\"" + s + "\"" +  SEPARATOR + STR_ARR + SEPARATOR + Arrays.toString(arr) + ",\n");
+					break;
+				default :
+					break;
+			}
+		}
+		out.append(fbuffer + "};\n");
+		return out.toString();
 	}
 	
 	public String cleanString(String in) {

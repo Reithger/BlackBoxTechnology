@@ -1,4 +1,23 @@
-"gender" : s* : ["Male", "Female", "Non-Binary"],
+"gender" : D : {
+	"male" : D : {
+		"possessive" : s : "his",
+		"subject" : s : "he",
+		"pronoun" : s : "him",
+		"title" : s : "Male",
+	};
+	"female" : D : {
+		"possessive" : s : "her",
+		"subject" : s : "her",
+		"pronoun" : s : "she",
+		"title" : s : "Female",
+	};
+	"nonbinary" : D : {
+		"possessive" : s : "their",
+		"subject" : s : "they",
+		"pronoun" : s : "they",
+		"title" : s : "Non-Binary",
+	};
+};
 "race" : s* : ["Simota", "Rhoan", "Aortin"],
 "sexuality" : s* : ["Straight", "Gay", "Bi", "Pan", "Ace", "Aro"],
 "country" : D : {

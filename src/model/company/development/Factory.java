@@ -19,6 +19,16 @@ public class Factory {
 		
 	}
 	
+	public boolean buildEquipment(Equipment e) {
+		if(owner.changeMoney(e.buildCost())) {
+			equipment.add(e);
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 	public void assignEmployee(String name, String target) {
 		
 	}

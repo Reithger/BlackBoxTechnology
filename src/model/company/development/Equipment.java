@@ -2,22 +2,24 @@ package model.company.development;
 
 import java.util.ArrayList;
 import model.mechanics.Data;
+import model.world.market.Product;
 import model.world.people.Person;
 
 public class Equipment {
 	
-	Factory factory;
-	ArrayList<Person> assigned;
-	String title;
-	double[] cost;
-	double[] production;
-	int[] personnel;
-	double[] maintenance;
-	int level;
+	private ArrayList<Person> assigned;
+	private Product product;
+	private String title;
+	private double[] cost;
+	private double[] production;
+	private int[] personnel;
+	private double[] maintenance;
+	private int level;
 	
-	public Equipment(Factory owner, Data dat) {
+//---  Constructors   -------------------------------------------------------------------------
+	
+	public Equipment(Data dat) {
 		level = 0;
-		factory = owner;
 		assigned = new ArrayList<Person>();
 		title = dat.getString(title);
 		cost = dat.getDoubleArray("cost");
@@ -26,6 +28,8 @@ public class Equipment {
 		maintenance = dat.getDoubleArray("maintenance");
 	}
 
+//---  Operations
+	
 	public double produce() {
 		double base = production[level] * (double)assigned.size() / (double)personnel[level];
 		for(Person p : assigned) {
@@ -49,13 +53,45 @@ public class Equipment {
 		}
 		return false;
 	}
-	
+
 	public boolean increaseLevel() {
 		if(level + 1 < production.length) {
 			level += 1;
 			return true;
 		}
 		return false;
+	}
+	
+//---  Setter Methods
+	
+	public void setProduced(Product p) {
+		product = p;
+	}
+	
+	public void setTitle(String newTit) {
+		title = newTit;
+	}
+
+//---  Getter Methods
+		
+	public double maintenanceCost() {
+		return maintenance[level];
+	}
+	
+	public double buildCost() {
+		return cost[0];
+	}
+	
+	public double upgradeCost() {
+		return cost[level];
+	}
+
+	public String getTitle() {
+		return title;
+	}
+	
+	public Product getProduct() {
+		return product;
 	}
 	
 }

@@ -9,7 +9,7 @@ public class Company {
 
 	private ArrayList<Factory> factory;
 	private Research research;
-	private int money;
+	private double money;
 	
 	public Company() {
 		
@@ -17,6 +17,18 @@ public class Company {
 	
 	public void iterate() {
 		
+	}
+	
+	public double getMoney() {
+		return money;
+	}
+	
+	public boolean changeMoney(double change) {
+		if(money + change < 0) {
+			return false;
+		}
+		money += change;
+		return true;
 	}
 	
 }
