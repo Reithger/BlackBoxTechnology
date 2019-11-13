@@ -1,6 +1,6 @@
 package model.world.people;
 
-import model.mechanics.Data;
+import controller.Data;
 
 public class Person {
 
@@ -44,6 +44,10 @@ public class Person {
 		dat.addDouble(research, "research");
 		dat.addDouble(production, "production");
 		return dat;
+	}
+	
+	public double getWage() {
+		return 1;
 	}
 	
 }

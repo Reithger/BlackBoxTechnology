@@ -1,4 +1,4 @@
-package view;
+package view.screen;
 
 import view.screen.Screen;
 import visual.frame.WindowFrame;

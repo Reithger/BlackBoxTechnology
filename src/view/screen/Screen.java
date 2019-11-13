@@ -1,20 +1,21 @@
 package view.screen;
 
 import java.util.HashMap;
-import view.Core;
+
+import view.Visual;
 import visual.panel.Panel;
 
 public abstract class Screen {
 	
-	private Core core;
+	private Visual Visual;
 	private String name;
 	private HashMap<String, Panel> panels;
 	
 	private int width;
 	private int height;
 	
-	public Screen(int x, int y, int inWidth, int inHeight, Core parent, String inName) {
-		core = parent;
+	public Screen(int x, int y, int inWidth, int inHeight, Visual parent, String inName) {
+		Visual = parent;
 		name = inName;
 		width = inWidth;
 		height = inHeight;
@@ -48,8 +49,8 @@ public abstract class Screen {
 		return height;
 	}
 	
-	public Core getCore() {
-		return core;
+	public Visual getVisual() {
+		return Visual;
 	}
 	
 }

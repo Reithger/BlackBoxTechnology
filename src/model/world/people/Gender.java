@@ -1,6 +1,6 @@
 package model.world.people;
 
-import model.mechanics.Data;
+import controller.Data;
 
 public class Gender {
 	

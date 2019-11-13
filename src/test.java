@@ -1,6 +1,6 @@
 import java.io.File;
 
-import model.mechanics.Data;
+import controller.Data;
 
 public class test {
 

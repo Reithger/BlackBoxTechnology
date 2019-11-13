@@ -1,11 +1,11 @@
 package view.screen;
 
-import view.Core;
+import view.Visual;
 import visual.panel.ElementPanel;
 
 public class Research extends Screen{
 
-	public Research(int x, int y, int inWidth, int inHeight, Core parent, String inName) {
+	public Research(int x, int y, int inWidth, int inHeight, Visual parent, String inName) {
 		super(x, y, inWidth, inHeight, parent, inName);
 	}
 
@@ -13,11 +13,11 @@ public class Research extends Screen{
 	public void initialize() {
 		ElementPanel center = new ElementPanel(0, 0, getWidth(), getHeight()) {
 			public void clickBehaviour(int event) {
-				getCore().triggerEvent(event);
+				getVisual().triggerEvent(event);
 			}
 			
 			public void keyBehaviour(int event) {
-				getCore().triggerEvent(event);
+				getVisual().triggerEvent(event);
 			}
 		};
 	}

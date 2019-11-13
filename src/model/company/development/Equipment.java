@@ -1,7 +1,8 @@
 package model.company.development;
 
 import java.util.ArrayList;
-import model.mechanics.Data;
+
+import controller.Data;
 import model.world.market.Product;
 import model.world.people.Person;
 
@@ -33,7 +34,7 @@ public class Equipment {
 	public double produce() {
 		double base = production[level] * (double)assigned.size() / (double)personnel[level];
 		for(Person p : assigned) {
-			base *= p.getProduction();
+			base *= p.getProduction();	//change to stepwise, probably
 		}
 		return base;
 	}
