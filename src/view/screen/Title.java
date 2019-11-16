@@ -7,8 +7,6 @@ import view.Visual;
 import visual.panel.ElementPanel;
 
 public class Title extends Screen{
-
-	private static final Font titleFont = new Font("Times New Roman", Font.BOLD, 30);
 		
 	public Title(int x, int y, int inWidth, int inHeight, Visual parent, String inName) {
 		super(x, y, inWidth, inHeight, parent, inName);
@@ -16,21 +14,29 @@ public class Title extends Screen{
 
 	@Override
 	public void initialize() {
-		ElementPanel center = new ElementPanel(0, 0, getWidth(), getHeight()) {
+		LocalPanel center = new LocalPanel(0, 0, getWidth(), getHeight()) {
 			public void clickBehaviour(int event) {
 				getVisual().triggerEvent(event);
 			}
 			
-			public void keyBehaviour(int event) {
+			public void keyBehaviour(char event) {
 				getVisual().triggerEvent(event);
 			}
 		};
 		
-		center.addRectangle("rect", 0, getWidth()/2, getHeight() / 3,  getWidth() * 2 / 3, getHeight() / 4, ElementPanel.CENTERED, new Color(84, 34, 200));
-		center.addText("text", 0, getWidth() / 2, getHeight() / 3, getWidth() * 2 / 3, getHeight() / 4, "Black Box Technologies", titleFont, ElementPanel.CENTERED, ElementPanel.NON_CENTERED, ElementPanel.CENTERED);
+		center.addBackground("back", "/assets/background/back1.png");
 		
-		center.addButton("butt", 0, getWidth() / 2, getHeight() * 2 / 3, getWidth() / 5, getHeight() / 6, new Color(84, 34, 200), Visual.TITLE_NAVIGATE_NEXUS, ElementPanel.CENTERED);
-		addPanel("center", center);
+		center.addRectangle("rect", 1, getWidth()/2, getHeight() / 3,  getWidth() * 3 / 4, getHeight() / 4, ElementPanel.CENTERED, new Color(84, 34, 200));
+		center.addTextCustom("title", 10, getWidth() / 2, getHeight() / 3, "Black Box Technologies", 4);
+		
+		center.addButtonCustom("start", 10, getWidth() / 3, getHeight() * 3 / 4, getWidth() / 5, getHeight() / 6, "Continue", 2, 3, Visual.TITLE_START_OLD);
+		center.addButtonCustom("start_new", 10, getWidth() * 2 / 3, getHeight() * 3 / 4, getWidth() / 5, getHeight() / 6, "Start New", 2, 3, Visual.TITLE_START_NEW);
+		
+		addPanel("Title", center);
 	}
 
+	public void update() {
+		
+	}
+	
 }

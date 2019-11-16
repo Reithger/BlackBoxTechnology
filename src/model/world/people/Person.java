@@ -3,6 +3,8 @@ package model.world.people;
 import controller.Data;
 
 public class Person {
+	
+	public final static String NAME = "name";
 
 	private String name;
 	private int age;
@@ -15,7 +17,7 @@ public class Person {
 	private double production;
 	
 	public Person(Data dat) {
-		name = dat.getString("name");
+		name = dat.getString(NAME);
 		age = dat.getInt("age");
 		research = dat.getDouble("research");
 		production = dat.getDouble("production");
@@ -48,6 +50,16 @@ public class Person {
 	
 	public double getWage() {
 		return 1;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public Data exportData() {
+		Data dat = new Data(name);
+		dat.addString(name, NAME);
+		return dat;
 	}
 	
 }

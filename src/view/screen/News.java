@@ -1,5 +1,7 @@
 package view.screen;
 
+import java.awt.Color;
+
 import view.Visual;
 import visual.panel.ElementPanel;
 
@@ -20,6 +22,13 @@ public class News extends Screen{
 				getVisual().triggerEvent(event);
 			}
 		};
+		center.addRectangle("back", 0, 0, 0, getWidth(), getHeight(), ElementPanel.NON_CENTERED, new Color(255,255, 255));
+		
+		addPanel("center", center);
 	}
 
+	public void update() {
+		
+	}
+	
 }

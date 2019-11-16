@@ -7,4 +7,8 @@ public class Product implements Market{
 	private String name;
 	private int price;
 	
+	public String getName() {
+		return name;
+	}
+	
 }

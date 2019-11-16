@@ -8,21 +8,26 @@ import model.world.people.Person;
 
 public class Equipment {
 	
+	public final static String NAME = "name";
+	
 	private ArrayList<Person> assigned;
 	private Product product;
-	private String title;
+	private String name;
+	private int level;
+	private String type;
+	
 	private double[] cost;
 	private double[] production;
 	private int[] personnel;
 	private double[] maintenance;
-	private int level;
+	
 	
 //---  Constructors   -------------------------------------------------------------------------
 	
 	public Equipment(Data dat) {
-		level = 0;
 		assigned = new ArrayList<Person>();
-		title = dat.getString(title);
+		level = dat.getInt("level");
+		type = dat.getString("type");
 		cost = dat.getDoubleArray("cost");
 		production = dat.getDoubleArray("production");
 		personnel = dat.getIntArray("personnel");
@@ -69,8 +74,12 @@ public class Equipment {
 		product = p;
 	}
 	
-	public void setTitle(String newTit) {
-		title = newTit;
+	public void setType(String newTit) {
+		type = newTit;
+	}
+	
+	public void setTitle(String title) {
+		name = title;
 	}
 
 //---  Getter Methods
@@ -88,11 +97,31 @@ public class Equipment {
 	}
 
 	public String getTitle() {
-		return title;
+		return name;
+	}
+	
+	public String getType() {
+		return type;
 	}
 	
 	public Product getProduct() {
 		return product;
+	}
+	
+//---  Mechanics   ----------------------------------------------------------------------------
+	
+	public Data exportData() {
+		Data dat = new Data(name);
+		String[] names = new String[assigned.size()];
+		for(int i = 0; i < assigned.size(); i++) {
+			names[i] = assigned.get(i).getName();
+		}
+		dat.addInt(level, "level");
+		dat.addString(product.getName(), "product");
+		dat.addString(type, "type");
+		dat.addString(name, NAME);
+		dat.addStringArray(names, "assigned");
+		return dat;
 	}
 	
 }

@@ -1,0 +1,23 @@
+"save_15" : D : {
+	"world" : D : {
+	};
+	"name" : s : "save_15",
+	"player" : D : {
+		"factory" : D* : [
+			"Factory" : D : {
+				"owner" : s : "company",
+				"equipment" : D* : [
+				]
+				"title" : s : "Factory",
+				"employees" : D* : [
+				]
+			};
+		]
+		"money" : d : 0.0,
+		"title" : s : "company",
+		"stock" : D : {
+		};
+		"research" : D : {
+		};
+	};
+};

@@ -1,6 +1,7 @@
 package controller;
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -14,9 +15,12 @@ public class Data {
 	private final static String STR = "s";
 	private final static String STR_ARR = "s*";
 	private final static String DAT = "D";
+	private final static String DAT_ARR = "D*";
 	
 	private final static String SEPARATOR = " : ";
 	private final static char DAT_END = ';';
+	private final static char ARR_START = '[';
+	private final static char ARR_END = ']';
 	
 	
 //---  Instance Variables   -------------------------------------------------------------------
@@ -35,21 +39,46 @@ public class Data {
 		RandomAccessFile raf = new RandomAccessFile(f, "r");
 		String line = raf.readLine();
 		LinkedList<Data> next = new LinkedList<Data>();
+		LinkedList<ArrayList<Data>> collec = new LinkedList<ArrayList<Data>>();
+		LinkedList<String> names = new LinkedList<String>();
+		LinkedList<Integer> posit = new LinkedList<Integer>();
 		while(line != null) {
 		  String[] details = line.split(SEPARATOR);
 		  String name = cleanString(details[0].trim());
+		  if(title == null) {
+			  title = name;
+		  }
 		  if(details.length <= 1) {
-			  if(name.charAt(name.length()-1) == DAT_END && next != null) {
+			  name = details[0];
+			  if(name.charAt(name.length()-1) == DAT_END) {
 				  Data out = next.pollLast();
-				  if(next.size() == 0) {
-					  this.addData(out);
+				  if(posit.size() > 0 && posit.peekLast() == next.size()) {
+					  collec.peekLast().add(out);
 				  }
 				  else {
-					  next.peekLast().addData(out);
+					  if(next.size() == 0) {
+						  this.addData(out);
+					  }
+					  else {
+						  next.peekLast().addData(out);
+					  }
+				  }
+			  }
+			  if(name.charAt(name.length() - 1) == ARR_END && posit.size() > 0) {
+				  ArrayList<Data> datLis = collec.pollLast();
+				  posit.pollLast();
+				  if(next.size() == 0) {
+					  this.addDataArray(names.pollLast(), datLis.toArray(new Data[datLis.size()]));
+				  }
+				  else {
+					  next.peekLast().addDataArray(names.pollLast(), datLis.toArray(new Data[datLis.size()]));
 				  }
 			  }
 			  line = raf.readLine();
 			  continue;
+		  }
+		  if(details[2].charAt(details[2].length() - 1) == ',') {
+			  details[2] = details[2].substring(0, details[2].length() - 1);
 		  }
 		  switch(details[1]) {
 			  case INT:
@@ -113,8 +142,13 @@ public class Data {
 				  }
 				  break;
 			  case DAT:
-				  next.add(new Data());
-				  next.peekLast().setTitle(name);
+				  Data common = new Data(name);
+				  next.add(common);
+				  break;
+			  case DAT_ARR:
+				  collec.addLast(new ArrayList<Data>());
+				  names.addLast(name);
+				  posit.addLast(next.size());
 				  break;
 			  default:
 				  System.out.println("Unrecognized data type: " + details[1]);
@@ -137,9 +171,7 @@ public class Data {
 	}
 	
 //---  Operations   ---------------------------------------------------------------------------
-	
-	
-	
+		
 	public void save(String name) {
 		try {
 			if(!(name.substring(name.length() - 4)).equals(".dta")) {
@@ -148,59 +180,14 @@ public class Data {
 			File f = new File(name);
 			f.delete();
 			RandomAccessFile raf = new RandomAccessFile(f, "rw");
-			this.save(raf, 1);
+			raf.writeBytes(this.toString());
+			raf.close();
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private void save(RandomAccessFile raf, int depth) throws Exception{
-		String fbuffer = "";
-		for(int i = 0; i < depth - 1; i++) {
-			fbuffer += "\t";
-		}
-		raf.writeBytes(fbuffer + getTitle() + SEPARATOR + DAT + SEPARATOR + "{\n");
-		String buffer = fbuffer + "\t";
-		for(String s : data.keySet()) {
-			switch(types.get(s)) {
-				case DAT :
-					this.getDataset(s).save(raf, depth + 1);
-					break;
-				case INT : 
-					raf.writeBytes(buffer + "\"" + s + "\"" +  SEPARATOR + INT + SEPARATOR + this.getInt(s) + ",\n");
-					break;
-				case INT_ARR :
-					raf.writeBytes(buffer + "\"" + s + "\"" +  SEPARATOR + INT_ARR + SEPARATOR + Arrays.toString(this.getIntArray(s)) + ",\n");
-					break;
-				case DBL :
-					raf.writeBytes(buffer + "\"" + s + "\"" +  SEPARATOR + DBL + SEPARATOR + this.getDouble(s) + ",\n");
-					break;
-				case DBL_ARR :
-					raf.writeBytes(buffer + "\"" + s + "\"" +  SEPARATOR + DBL_ARR + SEPARATOR + Arrays.toString(this.getDoubleArray(s)) + ",\n");
-					break;
-				case STR :
-					raf.writeBytes(buffer + "\"" + s + "\"" +  SEPARATOR + STR + SEPARATOR + "\"" + this.getString(s).replaceAll("\"",  "\\\\\"") + "\",\n");
-					break;
-				case STR_ARR :
-					String[] out = this.getStringArray(s);
-					for(int i = 0; i < out.length; i++) {
-						out[i] = "\"" + out[i].replaceAll("\"", "\\\\\"") + "\"";
-					}
-					raf.writeBytes(buffer + "\"" + s + "\"" +  SEPARATOR + STR_ARR + SEPARATOR + Arrays.toString(out) + ",\n");
-					break;
-				default :
-					break;
-			}
-		}
-		if(depth == 0) {
-			raf.writeBytes(buffer + "};\n");
-			raf.close();
-		}
-		else {
-			raf.writeBytes(fbuffer + "};\n");
-		}
-	}
+
 
 //---  Setter Methods   -----------------------------------------------------------------------
 	
@@ -218,6 +205,11 @@ public class Data {
 	public void addData(String name, Data dat) {
 		data.put(name, dat);
 		types.put(name, DAT);
+	}
+	
+	public void addDataArray(String name, Data[] dat) {
+		data.put(name, dat);
+		types.put(name, DAT_ARR);
 	}
 	
 	public void addString(String dat, String name) {
@@ -270,6 +262,10 @@ public class Data {
 		return (Data)data.get(name);
 	}
 	
+	public Data[] getDatasetArray(String name) {
+		return (Data[])data.get(name);
+	}
+	
 	public String[] getStringArray(String name) {
 		return (String[])data.get(name);
 	}
@@ -307,12 +303,19 @@ public class Data {
 		for(int i = 0; i < depth ; i++) {
 			fbuffer += "\t";
 		}
-		out.append(fbuffer + getTitle() + SEPARATOR + DAT + SEPARATOR + "{\n");
+		out.append(fbuffer + "\"" + getTitle() + "\"" + SEPARATOR + DAT + SEPARATOR + "{\n");
 		String buffer = fbuffer + "\t";
 		for(String s : data.keySet()) {
 			switch(types.get(s)) {
 				case DAT :
 					out.append(this.getDataset(s).toString(depth + 1));
+					break;
+				case DAT_ARR : 
+					out.append(buffer + "\"" + s + "\"" + SEPARATOR + DAT_ARR + SEPARATOR + "[\n");
+					for(Data d : this.getDatasetArray(s)) {
+						out.append(d.toString(depth + 2));
+					}
+					out.append(buffer + ARR_END + "\n");
 					break;
 				case INT : 
 					out.append(buffer + "\"" + s + "\"" +  SEPARATOR + INT + SEPARATOR + this.getInt(s) + ",\n");

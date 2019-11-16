@@ -1,0 +1,15 @@
+"save_1" : D : {
+	"world" : D : {
+	};
+	"name" : s : "save_1",
+	"player" : D : {
+		"factory" : D* : [
+		]
+		"money" : d : 0.0,
+		"title" : s : "company",
+		"stock" : D : {
+		};
+		"research" : D : {
+		};
+	};
+};

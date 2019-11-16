@@ -3,12 +3,23 @@
   "production" : d* : [1, 2, 3],
   "personnel" : i* : [1, 1, 2],
   "maintenance" : d* : [1, 2, 2],
-  "title" : s : "machine_a",
+  "type" : s : "machine_a",
 };
 "machine_b" : D : {
   "cost" : d* : [3, 5, 6],
   "production" : d* : [1, 2, 3],
   "personnel" : i* : [1, 1, 2],
   "maintenance" : d* : [1, 2, 2],
-  "title" : s : "machine_b",
+  "type" : s : "machine_b",
 };
+"test" : D* : [
+  "first" : D : {
+    "title" : s : "word",
+  };
+  "second" : D : {
+    "title" : s : "other word",
+  };
+  "third" : D : {
+    "title" : s : "third word",
+  };
+]
