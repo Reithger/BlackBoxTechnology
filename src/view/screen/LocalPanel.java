@@ -1,6 +1,5 @@
 package view.screen;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
@@ -26,9 +25,9 @@ public class LocalPanel extends ElementPanel{
 	}
 	
 	public void addBorderCustom(String name, int priority, int x, int y, int width, int height, boolean centered) {
-		String path = "/assets/UI/border/premade/" + width + "_" + height + ".png";
-		File check = new File(path);
-		if(check.exists()) {
+		String path = "saves/assets/b_" + width + "_" + height + ".png";
+		CustomImage newImg = new CustomImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		if(newImg.retrieveImage(path) != null) {
 			this.addImage(name + "_bord", priority, x, y, centered, path);
 			return;
 		}
@@ -40,47 +39,65 @@ public class LocalPanel extends ElementPanel{
 			x -= width / 2;
 			y -= height / 2;
 		}
-		CustomImage newImg = new CustomImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		for(int i = 0; i < up; i++) {
 			for(int j = 0; j < across; j++) {
-				if(i == up / 2) {
-					for(int k = 0; k < difY; k++) {
-						
-					}
-				}
-				
 				if(j == across / 2) {
 					for(int k = 0; k < difX; k++) {
-						
+						if(i == 0) {
+							newImg.addImage(16 * j + k, 16 * i, "/assets/UI/border/thin_across_top.png");
+						}
+						else if(i + 1 == up) {
+							newImg.addImage(16 * j + k, 16 * i, "/assets/UI/border/thin_across_bottom.png");
+						}
+						else {
+							newImg.addImage(16 * j + k, 16 * i, "/assets/UI/border/fill.png");
+						}
+					}
+				}
+				if(i == up / 2) {
+					for(int k = 0; k < difY; k++) {
+						if(j == 0) {
+							newImg.addImage(16 * j, 16 * i + k, "/assets/UI/border/thin_up_left.png");
+						}
+						else if(j + 1 == across) {
+							newImg.addImage(16 * j, 16 * i + k, "/assets/UI/border/thin_up_right.png");
+						}
+						else {
+							newImg.addImage(16 * j, 16 * i + k, "/assets/UI/border/fill.png");
+						}
 					}
 				}
 				
-				if(i == 0 && j == 0) {
-					newImg.addImage(x + 16 * j, y + 16 * i,"/assets/UI/border/topLeft.png");
+				
+				int extX = (j >= across / 2) ? difX : 0;
+				int extY = (i >= up / 2) ? difY : 0;
+				
+				if(i == 0 && j + extX == 0) {
+					newImg.addImage(16 * j + extX, 16 * i + extY,"/assets/UI/border/topLeft.png");
 				}
 				else if(i + 1 == up && j + 1 == across) {
-					newImg.addImage(x + 16 * j, y + 16 * i,"/assets/UI/border/bottomRight.png");
+					newImg.addImage(16 * j + extX, 16 * i + extY,"/assets/UI/border/bottomRight.png");
 				}
 				else if(i == 0 && j + 1 == across) {
-					newImg.addImage(x + 16 * j, y + 16 * i,"/assets/UI/border/topRight.png");
+					newImg.addImage(16 * j + extX, 16 * i + extY,"/assets/UI/border/topRight.png");
 				}
 				else if(i + 1 == up && j == 0) {
-					newImg.addImage(x + 16 * j, y + 16 * i,"/assets/UI/border/bottomLeft.png");
+					newImg.addImage(16 * j + extX, 16 * i + extY,"/assets/UI/border/bottomLeft.png");
 				}
 				else if(i == 0) {
-					newImg.addImage(x + 16 * j, y + 16 * i,"/assets/UI/border/across_top.png");
+					newImg.addImage(16 * j + extX, 16 * i + extY,"/assets/UI/border/across_top.png");
 				}
 				else if(i + 1 == up) {
-					newImg.addImage(x + 16 * j, y + 16 * i,"/assets/UI/border/across_bottom.png");
+					newImg.addImage(16 * j + extX, 16 * i + extY,"/assets/UI/border/across_bottom.png");
 				}
 				else if(j == 0) {
-					newImg.addImage(x + 16 * j, y + 16 * i,"/assets/UI/border/vertical_left.png");
+					newImg.addImage(16 * j + extX, 16 * i + extY,"/assets/UI/border/vertical_left.png");
 				}
 				else if(j + 1 == across) {
-					newImg.addImage(x + 16 * j, y + 16 * i,"/assets/UI/border/vertical_right.png");
+					newImg.addImage(16 * j + extX, 16 * i + extY,"/assets/UI/border/vertical_right.png");
 				}
 				else {
-					newImg.addImage(x + 16 * j, y + 16 * i,"/assets/UI/border/fill.png");
+					newImg.addImage(16 * j + extX, 16 * i + extY,"/assets/UI/border/fill.png");
 				}
 			}
 		}
@@ -90,7 +107,7 @@ public class LocalPanel extends ElementPanel{
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		this.addImage(name + "_bord", priority, x, y, centered, path);
+		this.addImage(name + "_bord", priority, x, y, centered, newImg);
 	}
 	
 	public void addButtonCustom(String name, int priority, int x, int y, int width, int height, String phrase, int scaleButton, int scaleText, int code) {
@@ -162,11 +179,12 @@ public class LocalPanel extends ElementPanel{
 	}
 	
 	public class CustomImage extends BufferedImage{
+		private HashMap<String, BufferedImage> images;
+		
 		public CustomImage(int width, int height, int imageType) {
 			super(width, height, imageType);
+			images = new HashMap<String, BufferedImage>();
 		}
-
-		private HashMap<String, BufferedImage> images;
 		
 		public BufferedImage retrieveImage(String pathIn) {
 			String path = pathIn.replace("\\", "/");
@@ -183,7 +201,6 @@ public class LocalPanel extends ElementPanel{
 					return images.get(path);
 				}
 				catch(Exception e1) {
-					e1.printStackTrace();
 					return null;
 				}
 			}
@@ -193,7 +210,7 @@ public class LocalPanel extends ElementPanel{
 			BufferedImage img = retrieveImage(path);
 			for(int i = 0; i < img.getWidth(); i++) {
 				for(int j = 0; j < img.getHeight(); j++) {
-					this.setRGB(x + j, y + i, img.getRGB(j, i));
+					this.setRGB(x + i, y + j, img.getRGB(i, j));
 				}
 			}
 		}
