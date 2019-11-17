@@ -16,7 +16,7 @@ public class Core {
 	private final static int width = 840;
 	private final static int height = 560;
 	
-	private final static int SELECT_WIDTH = 300;
+	private final static int SELECT_WIDTH = 400;
 	private final static int SELECT_HEIGHT = 500;
 
 	public Core() {
@@ -65,6 +65,9 @@ public class Core {
 	
 	public void loadGame() {
 		WindowFrame disp = new WindowFrame(SELECT_WIDTH, SELECT_HEIGHT);
+		if(new File("saves/").listFiles() == null) {
+			(new File("saves/")).mkdir();
+		}
 		File[] fS = new File("saves/").listFiles();
 		LocalPanel lP = new LocalPanel(0, 0, SELECT_WIDTH, SELECT_HEIGHT) {
 			@Override
@@ -88,9 +91,9 @@ public class Core {
 		};
 		lP.addBackground("back", "/assets/background/back3.png");
 		for(int i = 0; i < fS.length; i++) {
-			lP.addButtonCustom("file_" + i, 10, disp.getWidth()/2, disp.getHeight() * 2 / 10 + i * disp.getHeight() / 7, disp.getWidth() / 4, disp.getHeight()/10, fS[i].getName(), 2, 2, i);
+			lP.addButtonCustom("file_" + i, 10, disp.getWidth()/2, disp.getHeight() * 2 / 10 + i * disp.getHeight() / 7, disp.getWidth() / 2, disp.getHeight()/10, fS[i].getName(), 2, i);
 		}
-		lP.addButtonCustom("back", 10, disp.getWidth()/4, disp.getHeight() * 9 / 10, disp.getWidth() / 5, disp.getHeight() / 10, "Back", 1, 1, -1);
+		lP.addButtonCustom("back", 10, disp.getWidth() / 8, disp.getHeight() * 9 / 10, disp.getWidth() / 5, disp.getHeight() / 10, "Back", 2, -1);
 		disp.addPanelToScreen(lP);
 	}
 	

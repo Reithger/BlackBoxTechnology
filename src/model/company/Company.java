@@ -1,5 +1,6 @@
 package model.company;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,6 +18,8 @@ public class Company {
 	public final static String RESEARCH = "research";
 	public final static String FACTORY = "factory";
 	
+	public final static String PATH_FACTORY_LIST = "dta/Factories.dta";
+	
 //---  Instance Variables   -------------------------------------------------------------------
 
 	private String title;
@@ -25,15 +28,23 @@ public class Company {
 	private HashMap<Product, Double> stock;
 	private double money;
 	
+	private Data factoryList;
+	
 //---  Constructors   -------------------------------------------------------------------------
 	
 	public Company() {
 		title = "company";
 		factory = new ArrayList<Factory>();
-		factory.add(new Factory(this, "Factory"));
 		research = new Research();
 		stock = new HashMap<Product, Double>();
 		money = 0;
+		try {
+			factoryList = new Data(new File(PATH_FACTORY_LIST));
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		factory.add(new Factory(this, factoryList.getDataset("Smokestack")));
 	}
 	
 	public Company(Data dat) {
@@ -45,6 +56,12 @@ public class Company {
 		research = new Research();
 		stock = new HashMap<Product, Double>();
 		money = 0;
+		try {
+			factoryList = new Data(new File(PATH_FACTORY_LIST));
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 //---  Operations   ---------------------------------------------------------------------------

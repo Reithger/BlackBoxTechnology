@@ -1,10 +1,6 @@
 package view.screen;
 
-import java.awt.Color;
-import java.awt.Font;
-
 import view.Visual;
-import visual.panel.ElementPanel;
 
 public class Title extends Screen{
 		
@@ -26,11 +22,11 @@ public class Title extends Screen{
 		
 		center.addBackground("back", "/assets/background/back1.png");
 		
-		center.addRectangle("rect", 1, getWidth()/2, getHeight() / 3,  getWidth() * 3 / 4, getHeight() / 4, ElementPanel.CENTERED, new Color(84, 34, 200));
+		center.addBorderCustom("bord", 1, getWidth()/2, getHeight() / 3, getWidth() * 3 / 4, getHeight() / 4, true);
 		center.addTextCustom("title", 10, getWidth() / 2, getHeight() / 3, "Black Box Technologies", 4);
 		
-		center.addButtonCustom("start", 10, getWidth() / 3, getHeight() * 3 / 4, getWidth() / 5, getHeight() / 6, "Continue", 2, 3, Visual.TITLE_START_OLD);
-		center.addButtonCustom("start_new", 10, getWidth() * 2 / 3, getHeight() * 3 / 4, getWidth() / 5, getHeight() / 6, "Start New", 2, 3, Visual.TITLE_START_NEW);
+		center.addButtonCustom("start", 10, getWidth() / 3, getHeight() * 3 / 4, getWidth() / 5, getHeight() / 8, "Continue", 2, Visual.TITLE_START_OLD);
+		center.addButtonCustom("start_new", 10, getWidth() * 2 / 3, getHeight() * 3 / 4, getWidth() / 5, getHeight() / 8, "Start New", 2, Visual.TITLE_START_NEW);
 		
 		addPanel("Title", center);
 	}

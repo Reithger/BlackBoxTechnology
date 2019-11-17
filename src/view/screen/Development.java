@@ -16,14 +16,14 @@ public class Development extends Screen{
 				getVisual().triggerEvent(event);
 			}
 			
-			public void keyBehaviour(int event) {
+			public void keyBehaviour(char event) {
 				getVisual().triggerEvent(event);
 			}
 		};
 
 		center.addBackground("back", "/assets/background/back3.png");
 		
-		center.addButtonCustom("back", 10, getWidth() / 6, getHeight() * 7 / 8, getWidth() / 8, getHeight() / 10, "Back", 1, 2, Visual.DEVELOPMENT_NAVIGATE_NEXUS);
+		center.addButtonCustom("back", 10, getWidth() / 6, getHeight() * 7 / 8, getWidth() / 8, getHeight() / 10, "Back", 1, Visual.DEVELOPMENT_NAVIGATE_NEXUS);
 		
 		addPanel("Development", center);
 	}

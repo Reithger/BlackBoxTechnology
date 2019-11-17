@@ -11,6 +11,8 @@ import model.company.development.Factory;
 import visual.panel.ElementPanel;
 
 public class LocalPanel extends ElementPanel{
+	
+	private final static int ANIMATION_RATE = 10;
 
 //---  Constructors   -------------------------------------------------------------------------
 	
@@ -25,7 +27,10 @@ public class LocalPanel extends ElementPanel{
 	}
 	
 	public void addBorderCustom(String name, int priority, int x, int y, int width, int height, boolean centered) {
-		String path = "saves/assets/b_" + width + "_" + height + ".png";
+		if(new File("decal/").listFiles() == null) {
+			(new File("decal/")).mkdir();
+		}
+		String path = "decal/b_" + width + "_" + height + ".png";
 		CustomImage newImg = new CustomImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		if(newImg.retrieveImage(path) != null) {
 			this.addImage(name + "_bord", priority, x, y, centered, path);
@@ -35,10 +40,6 @@ public class LocalPanel extends ElementPanel{
 		int up = height / 16;
 		int difX = width - across * 16;
 		int difY = height - up * 16;
-		if(centered) {
-			x -= width / 2;
-			y -= height / 2;
-		}
 		for(int i = 0; i < up; i++) {
 			for(int j = 0; j < across; j++) {
 				if(j == across / 2) {
@@ -47,7 +48,7 @@ public class LocalPanel extends ElementPanel{
 							newImg.addImage(16 * j + k, 16 * i, "/assets/UI/border/thin_across_top.png");
 						}
 						else if(i + 1 == up) {
-							newImg.addImage(16 * j + k, 16 * i, "/assets/UI/border/thin_across_bottom.png");
+							newImg.addImage(16 * j + k, 16 * i + difY, "/assets/UI/border/thin_across_bottom.png");
 						}
 						else {
 							newImg.addImage(16 * j + k, 16 * i, "/assets/UI/border/fill.png");
@@ -60,7 +61,7 @@ public class LocalPanel extends ElementPanel{
 							newImg.addImage(16 * j, 16 * i + k, "/assets/UI/border/thin_up_left.png");
 						}
 						else if(j + 1 == across) {
-							newImg.addImage(16 * j, 16 * i + k, "/assets/UI/border/thin_up_right.png");
+							newImg.addImage(16 * j + difX, 16 * i + k, "/assets/UI/border/thin_up_right.png");
 						}
 						else {
 							newImg.addImage(16 * j, 16 * i + k, "/assets/UI/border/fill.png");
@@ -68,11 +69,10 @@ public class LocalPanel extends ElementPanel{
 					}
 				}
 				
-				
 				int extX = (j >= across / 2) ? difX : 0;
 				int extY = (i >= up / 2) ? difY : 0;
 				
-				if(i == 0 && j + extX == 0) {
+				if(i == 0 && j == 0) {
 					newImg.addImage(16 * j + extX, 16 * i + extY,"/assets/UI/border/topLeft.png");
 				}
 				else if(i + 1 == up && j + 1 == across) {
@@ -110,8 +110,8 @@ public class LocalPanel extends ElementPanel{
 		this.addImage(name + "_bord", priority, x, y, centered, newImg);
 	}
 	
-	public void addButtonCustom(String name, int priority, int x, int y, int width, int height, String phrase, int scaleButton, int scaleText, int code) {
-		addImage(name + "_img", priority, x, y, ElementPanel.CENTERED, "/assets/UI/border.png", scaleButton);
+	public void addButtonCustom(String name, int priority, int x, int y, int width, int height, String phrase, int scaleText, int code) {
+		addBorderCustom(name + "_bord", priority, x, y, width, height, true);
 		addTextCustom(name + "_img", priority + 1, x, y, phrase, scaleText);
 		addButton(name + "_butt", priority, x, y, width, height, code, ElementPanel.CENTERED);
 	}
@@ -125,12 +125,19 @@ public class LocalPanel extends ElementPanel{
 		}
 	}
 	
-	public void addFactoryDecal(String name, int priority, int x, int y, Data dat) {
+	public void addFactoryDecal(String name, int priority, int x, int y, int width, int height, Data dat, int cycle) {
 		if(dat == null) {
 			return;
 		}
-		this.addBorderCustom(name, priority, x,  y, getWidth() / 3, getHeight() * 3 / 5, true);
-		addTextCustom(name + "_tex", priority + 5, x, y, "Name: " + dat.getString(Factory.TITLE), 1);
+		this.addBorderCustom(name, priority, x,  y, width, height, true);
+		
+		addTextCustom(name + "_nom", priority + 5, x, y - height / 4, dat.getString(Factory.TITLE), 2);
+		addTextCustom(name + "_equi", priority + 5, x, y + height / 4, "Equipment: " + dat.getDatasetArray(Factory.EQUIPMENT).length, 2);
+		addTextCustom(name + "_empl", priority + 5, x, y + height * 3 / 8, "Employees: " + dat.getDatasetArray(Factory.EMPLOYEES).length, 2);
+		
+		String imgPath = dat.getStringArray(Factory.IMAGE)[cycle % (ANIMATION_RATE * dat.getStringArray(Factory.IMAGE).length) / ANIMATION_RATE];
+		
+		addImage(name + "_fac", priority + 5, x, y, true, imgPath, 4);	
 	}
 	
 	public void removeFactoryDecale(String name) {

@@ -1,0 +1,16 @@
+"Smokestack" : D : {
+  "owner" : s : "Company",
+  "equipment" : D* : [
+    "Refinery" : D : {
+      "name" : s : "Refinery",
+      "level" : i : 0,
+      "type" : s : "Refinery",
+      "product" : s : "",
+    };
+  ],
+  "type" : s : "Smokestack",
+  "title" : s : "Smokestack",
+  "employees" : D* : [
+  ]
+  "image" : s* : ["/assets/art/fac3.png", "/assets/art/fac4.png"],
+};

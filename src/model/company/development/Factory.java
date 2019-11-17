@@ -1,5 +1,6 @@
 package model.company.development;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import controller.Data;
@@ -14,25 +15,26 @@ public class Factory {
 	public final static String OWNER = "owner";
 	public final static String EQUIPMENT = "equipment";
 	public final static String EMPLOYEES = "employees";
+	public final static String IMAGE = "image";
+	public final static String TYPE = "type";
+	
+	public final static String PATH_EQUIPMENT_LIST = "dta/Equipment.dta";
 
 //---  Instance Variables   -------------------------------------------------------------------
 	
 	private Company owner;
 	private String name;
+	private String type;
 	private HashMap<String, Person> employees;
 	private HashMap<String, Equipment> equipment;
+	private String[] images;
+	private Data equipmentList;
 	
 //---  Constructors   -------------------------------------------------------------------------
 	
-	public Factory(Company comp, String nom) {
-		owner = comp;
-		name = nom;
-		equipment = new HashMap<String, Equipment>();
-		employees = new HashMap<String, Person>();
-	}
-	
 	public Factory(Company comp, Data dat) {
 		owner = comp;
+		type = dat.getString(TYPE);
 		name = dat.getString(TITLE);
 		equipment = new HashMap<String, Equipment>();
 		for(Data d : dat.getDatasetArray(EQUIPMENT)) {
@@ -41,6 +43,13 @@ public class Factory {
 		employees = new HashMap<String, Person>();
 		for(Data d : dat.getDatasetArray(EMPLOYEES)) {
 			employees.put(d.getString(Equipment.NAME), new Person(d));
+		}
+		images = dat.getStringArray(IMAGE);
+		try {
+			equipmentList = new Data(new File(PATH_EQUIPMENT_LIST)).getDataset(name);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -74,7 +83,7 @@ public class Factory {
 		}
 		return false;
 	}
-	
+
 //---  Getter Methods   -----------------------------------------------------------------------
 	
 	public Equipment getEquipment(String name) {
@@ -91,6 +100,10 @@ public class Factory {
 	
 	public Collection<Equipment> getEquipment(){
 		return equipment.values();
+	}
+	
+	public Data getEquipmentList() {
+		return equipmentList;
 	}
 	
 //---  Mechanics   ----------------------------------------------------------------------------
@@ -111,6 +124,8 @@ public class Factory {
 			pers[i++] = p.exportData();
 		}
 		dat.addDataArray(EMPLOYEES, pers);
+		dat.addStringArray(images, IMAGE);
+		dat.addString(type, TYPE);
 		return dat;
 	}
 	

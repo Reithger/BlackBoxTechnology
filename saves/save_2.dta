@@ -1,0 +1,24 @@
+"save_2" : D : {
+	"world" : D : {
+	};
+	"name" : s : "save_2",
+	"player" : D : {
+		"factory" : D* : [
+			"Smokestack" : D : {
+				"owner" : s : "company",
+				"image" : s* : ["/assets/art/fac3.png", "/assets/art/fac4.png", "/assets/art/placeholder.png"],
+				"equipment" : D* : [
+				]
+				"title" : s : "Smokestack",
+				"employees" : D* : [
+				]
+			};
+		]
+		"money" : d : 0.0,
+		"title" : s : "company",
+		"stock" : D : {
+		};
+		"research" : D : {
+		};
+	};
+};

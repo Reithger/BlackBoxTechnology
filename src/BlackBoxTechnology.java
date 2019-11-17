@@ -7,3 +7,13 @@ public class BlackBoxTechnology {
 	}
 	
 }
+
+
+/*
+ * Each type of factory has limited Equipment it can possess, part of research is unlocking new
+ * factories to use (some more or less morally acceptable).
+ * 
+ * 
+ * 
+ * 
+ */
