@@ -9,9 +9,17 @@ import model.world.people.Person;
 public class Equipment {
 	
 	public final static String NAME = "name";
+	public final static String TYPE = "type";
+	public final static String IMAGE = "image";
+	public final static String COST = "cost";
+	public final static String PRODUCTION = "production";
+	public final static String PRODUCT = "product";
+	public final static String LEVEL = "level";
+	public final static String PERSONNEL = "personnel";
+	public final static String MAINTENANCE = "maintenance";
 	
 	private ArrayList<Person> assigned;
-	private Product product;
+	private String product;
 	private String name;
 	private int level;
 	private String type;
@@ -20,18 +28,23 @@ public class Equipment {
 	private double[] production;
 	private int[] personnel;
 	private double[] maintenance;
+	private String[] images;
 	
 	
 //---  Constructors   -------------------------------------------------------------------------
 	
-	public Equipment(Data dat) {
+	public Equipment(Data dat, Data ref) {
 		assigned = new ArrayList<Person>();
-		level = dat.getInt("level");
-		type = dat.getString("type");
-		cost = dat.getDoubleArray("cost");
-		production = dat.getDoubleArray("production");
-		personnel = dat.getIntArray("personnel");
-		maintenance = dat.getDoubleArray("maintenance");
+		product = dat.getString(PRODUCT);
+		name = dat.getString(NAME);
+		level = dat.getInt(LEVEL);
+		type = dat.getString(TYPE);
+		
+		cost = ref.getDoubleArray(COST);
+		production = ref.getDoubleArray(PRODUCTION);
+		personnel = ref.getIntArray(PERSONNEL);
+		maintenance = ref.getDoubleArray(MAINTENANCE);
+		images = ref.getStringArray(IMAGE);
 	}
 
 //---  Operations
@@ -70,7 +83,7 @@ public class Equipment {
 	
 //---  Setter Methods
 	
-	public void setProduced(Product p) {
+	public void setProduced(String p) {
 		product = p;
 	}
 	
@@ -104,7 +117,7 @@ public class Equipment {
 		return type;
 	}
 	
-	public Product getProduct() {
+	public String getProduct() {
 		return product;
 	}
 	
@@ -116,11 +129,15 @@ public class Equipment {
 		for(int i = 0; i < assigned.size(); i++) {
 			names[i] = assigned.get(i).getName();
 		}
-		dat.addInt(level, "level");
-		dat.addString(product.getName(), "product");
-		dat.addString(type, "type");
+		dat.addInt(level, LEVEL);
+		dat.addString(product, PRODUCT);
+		dat.addString(type, TYPE);
 		dat.addString(name, NAME);
-		dat.addStringArray(names, "assigned");
+		dat.addStringArray(names, PERSONNEL);
+		dat.addStringArray(images, IMAGE);
+		dat.addDoubleArray(cost, COST);
+		dat.addDoubleArray(production, PRODUCTION);
+		dat.addDoubleArray(maintenance, MAINTENANCE);
 		return dat;
 	}
 	

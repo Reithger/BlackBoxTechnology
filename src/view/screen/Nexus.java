@@ -1,5 +1,6 @@
 package view.screen;
 
+import model.company.development.Factory;
 import view.Visual;
 import visual.panel.ElementPanel;
 
@@ -48,9 +49,8 @@ public class Nexus extends Screen{
 
 	public void update() {
 		if(getModel() != null && center != null) {
-			center.removeFactoryDecale("fac_1");
 			center.addFactoryDecal("fac_1", 10, getWidth() * 3 / 4, getHeight() / 2, getWidth() / 3, getHeight() * 3 / 5, getFactories()[factoryIndex], cycle++);
-			if(cycle > 20) {
+			if(cycle > LocalPanel.ANIMATION_RATE * getFactories()[factoryIndex].getStringArray(Factory.IMAGE).length) {
 				cycle = 0;
 			}
 		}

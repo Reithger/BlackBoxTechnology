@@ -298,6 +298,9 @@ public class Data {
 	}
 	
 	private String toString(int depth){
+		if(getDataset(title) != null && data.values().size() == 1) {
+			return getDataset(title).toString();
+		}
 		StringBuilder out = new StringBuilder();
 		String fbuffer = "";
 		for(int i = 0; i < depth ; i++) {

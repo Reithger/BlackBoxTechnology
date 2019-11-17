@@ -17,13 +17,13 @@ public class Model {
 	public Model(String nom, Data dat) {
 		name = dat.getString(NAME);
 		world = new World(dat.getDataset(WORLD));
-		player = new Company(dat.getDataset(PLAYER));
+		player = new Company(world, dat.getDataset(PLAYER));
 	}
 	
 	public Model(String nom) {
 		name = nom;
 		world = new World();
-		player = new Company();
+		player = new Company(world);
 	}
 	
 	public Data exportData() {

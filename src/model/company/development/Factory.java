@@ -32,25 +32,26 @@ public class Factory {
 	
 //---  Constructors   -------------------------------------------------------------------------
 	
-	public Factory(Company comp, Data dat) {
+	public Factory(Company comp, Data dat, Data ref) {
+		try {
+			equipmentList = new Data(new File(PATH_EQUIPMENT_LIST)).getDataset(dat.getString(Equipment.TYPE));
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		owner = comp;
 		type = dat.getString(TYPE);
 		name = dat.getString(TITLE);
 		equipment = new HashMap<String, Equipment>();
 		for(Data d : dat.getDatasetArray(EQUIPMENT)) {
-			equipment.put(d.getString(Equipment.NAME), new Equipment(d));
+			equipment.put(d.getString(Equipment.NAME), new Equipment(d, equipmentList.getDataset(d.getString(Equipment.TYPE))));
 		}
 		employees = new HashMap<String, Person>();
 		for(Data d : dat.getDatasetArray(EMPLOYEES)) {
-			employees.put(d.getString(Equipment.NAME), new Person(d));
+			employees.put(d.getString(Person.NAME), new Person(d));
 		}
-		images = dat.getStringArray(IMAGE);
-		try {
-			equipmentList = new Data(new File(PATH_EQUIPMENT_LIST)).getDataset(name);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
+		images = ref.getStringArray(IMAGE);
+
 	}
 	
 //---  Operations   ---------------------------------------------------------------------------
@@ -124,8 +125,8 @@ public class Factory {
 			pers[i++] = p.exportData();
 		}
 		dat.addDataArray(EMPLOYEES, pers);
-		dat.addStringArray(images, IMAGE);
 		dat.addString(type, TYPE);
+		dat.addStringArray(images, IMAGE);
 		return dat;
 	}
 	

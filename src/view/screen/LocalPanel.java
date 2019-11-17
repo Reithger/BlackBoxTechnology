@@ -12,7 +12,7 @@ import visual.panel.ElementPanel;
 
 public class LocalPanel extends ElementPanel{
 	
-	private final static int ANIMATION_RATE = 10;
+	public final static int ANIMATION_RATE = 5;
 
 //---  Constructors   -------------------------------------------------------------------------
 	
@@ -140,8 +140,8 @@ public class LocalPanel extends ElementPanel{
 		addImage(name + "_fac", priority + 5, x, y, true, imgPath, 4);	
 	}
 	
-	public void removeFactoryDecale(String name) {
-		this.removeElement(name + "_tex");
+	public void addEquipmentDecale(String name, int priority, int x, int y, int width, int height, Data dat, int cycle) {
+		
 	}
 	
 //---  Mechanics   ----------------------------------------------------------------------------

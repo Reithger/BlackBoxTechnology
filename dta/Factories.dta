@@ -7,7 +7,7 @@
       "type" : s : "Refinery",
       "product" : s : "",
     };
-  ],
+  ]
   "type" : s : "Smokestack",
   "title" : s : "Smokestack",
   "employees" : D* : [

@@ -2,7 +2,6 @@ package controller;
 
 import java.io.File;
 import java.util.ArrayList;
-
 import model.Model;
 import view.Visual;
 import view.screen.LocalPanel;

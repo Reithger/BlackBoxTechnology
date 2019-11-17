@@ -7,6 +7,7 @@ import java.util.HashMap;
 import controller.Data;
 import model.company.development.Factory;
 import model.company.research.Research;
+import model.world.World;
 import model.world.market.Product;
 
 public class Company {
@@ -22,21 +23,23 @@ public class Company {
 	
 //---  Instance Variables   -------------------------------------------------------------------
 
+	private World world;
 	private String title;
 	private ArrayList<Factory> factory;
 	private Research research;
-	private HashMap<Product, Double> stock;
+	private HashMap<String, Double> stock;
 	private double money;
 	
 	private Data factoryList;
 	
 //---  Constructors   -------------------------------------------------------------------------
 	
-	public Company() {
+	public Company(World w) {
+		world = w;
 		title = "company";
 		factory = new ArrayList<Factory>();
 		research = new Research();
-		stock = new HashMap<Product, Double>();
+		stock = new HashMap<String, Double>();
 		money = 0;
 		try {
 			factoryList = new Data(new File(PATH_FACTORY_LIST));
@@ -44,23 +47,30 @@ public class Company {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		factory.add(new Factory(this, factoryList.getDataset("Smokestack")));
+		factory.add(new Factory(this, factoryList.getDataset("Smokestack"), factoryList.getDataset("Smokestack")));
+		for(String s : world.getProducts().keySet()) {
+			stock.put(s, 0.0);
+		}
 	}
 	
-	public Company(Data dat) {
-		title = dat.getString(TITLE);
-		factory = new ArrayList<Factory>();
-		for(Data d : dat.getDatasetArray(FACTORY)) {
-			factory.add(new Factory(this, d));
-		}
-		research = new Research();
-		stock = new HashMap<Product, Double>();
-		money = 0;
+	public Company(World w, Data dat) {
 		try {
 			factoryList = new Data(new File(PATH_FACTORY_LIST));
 		}
 		catch(Exception e) {
 			e.printStackTrace();
+		}
+		title = dat.getString(TITLE);
+		world = w;
+		factory = new ArrayList<Factory>();
+		for(Data d : dat.getDatasetArray(FACTORY)) {
+			factory.add(new Factory(this, d, factoryList.getDataset(d.getString(Factory.TYPE))));
+		}
+		research = new Research();
+		stock = new HashMap<String, Double>();
+		money = 0;
+		for(String s : world.getProducts().keySet()) {
+			stock.put(s, 0.0);
 		}
 	}
 	
@@ -72,7 +82,7 @@ public class Company {
 		}
 	}
 		
-	public boolean changeProduct(double change, Product reference) {
+	public boolean changeProduct(double change, String reference) {
 		if(stock.get(reference) + change < 0) {
 			return false;
 		}
@@ -108,7 +118,7 @@ public class Company {
 	public ArrayList<Factory> getFactories(){
 		return factory;
 	}
-	
+		
 	public Data exportData() {
 		Data dat = new Data(title);
 		dat.addString(title, TITLE);
@@ -119,8 +129,8 @@ public class Company {
 		}
 		dat.addDataArray(FACTORY, factori);
 		Data prod = new Data(STOCK);
-		for(Product s : stock.keySet()) {
-			prod.addDouble(stock.get(s), s.getName());
+		for(String s : stock.keySet()) {
+			prod.addDouble(stock.get(s), s);
 		}
 		dat.addData(STOCK, prod);
 		dat.addData(RESEARCH, research.exportData());

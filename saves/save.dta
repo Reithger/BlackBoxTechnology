@@ -4,19 +4,29 @@
 	"name" : s : "save",
 	"player" : D : {
 		"factory" : D* : [
-			"Factory" : D : {
+			"Smokestack" : D : {
 				"owner" : s : "company",
-				"image" : s : "/assets/art/placeholder.png",
+				"image" : s* : ["/assets/art/fac3.png", "/assets/art/fac4.png"],
 				"equipment" : D* : [
+					"Refinery" : D : {
+						"product" : s : "",
+						"level" : i : 0,
+						"name" : s : "Refinery",
+						"assigned" : s* : [],
+						"type" : s : "Refinery",
+					};
 				]
-				"title" : s : "Factory",
+				"title" : s : "Smokestack",
 				"employees" : D* : [
 				]
+				"type" : s : "Smokestack",
 			};
 		]
 		"money" : d : 0.0,
 		"title" : s : "company",
 		"stock" : D : {
+			"General" : d : 0.0,
+			"Goods" : d : 0.0,
 		};
 		"research" : D : {
 		};
