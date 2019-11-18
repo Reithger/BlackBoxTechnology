@@ -34,4 +34,7 @@ public class Model {
 		return dat;
 	}
 		
+	public Company getPlayer() {
+		return player;
+	}
 }

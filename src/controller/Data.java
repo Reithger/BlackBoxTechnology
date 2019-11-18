@@ -337,10 +337,11 @@ public class Data {
 					break;
 				case STR_ARR :
 					String[] arr = this.getStringArray(s);
+					String[] outA = new String[arr.length];
 					for(int i = 0; i < arr.length; i++) {
-						arr[i] = "\"" + arr[i].replaceAll("\"", "\\\\\"") + "\"";
+						outA[i] = "\"" + arr[i].replaceAll("\"", "\\\\\"") + "\"";
 					}
-					out.append(buffer + "\"" + s + "\"" +  SEPARATOR + STR_ARR + SEPARATOR + Arrays.toString(arr) + ",\n");
+					out.append(buffer + "\"" + s + "\"" +  SEPARATOR + STR_ARR + SEPARATOR + Arrays.toString(outA) + ",\n");
 					break;
 				default :
 					break;

@@ -1,6 +1,8 @@
 package view.screen;
 
+import java.awt.Graphics;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import controller.Data;
 import view.Visual;
@@ -8,15 +10,15 @@ import visual.panel.Panel;
 
 public abstract class Screen {
 		
-	private Visual visual;
+	private static Visual visual;
 	private String name;
 	private HashMap<String, Panel> panels;
+	protected LocalPanel center;
 	
 	private int width;
 	private int height;
 	private static int cycle;
 	private static int[] focus;
-	private boolean update;
 	
 //---  Constructors   -------------------------------------------------------------------------
 	
@@ -28,7 +30,6 @@ public abstract class Screen {
 		cycle = 0;
 		focus = new int[1];
 		panels = new HashMap<String, Panel>();
-		update = true;
 		initialize();
 	}
 	
@@ -37,6 +38,10 @@ public abstract class Screen {
 	public abstract void initialize();
 	
 	public abstract void update();
+	
+	public void printTemporaryMessage(int x, int y, String phrase, int timer) {
+		center.addFadingText("fade", 200, x, y, phrase, 3, timer);
+	}
 	
 //---  Getter Methods   -----------------------------------------------------------------------
 	
@@ -71,35 +76,31 @@ public abstract class Screen {
 		return -1;
 	}
 	
-	public boolean getUpdateStatus() {
-		return update;
-	}
-	
-	public Visual getVisual() {
+	public static Visual getVisual() {
 		return visual;
 	}
 	
-	public Data getModel() {
+	public static Data getModel() {
 		return getVisual().getModel();
 	}
 
-	public Data getWorld() {
+	public static Data getWorld() {
 		return getModel().getDataset("world");
 	}
 	
-	public Data getPlayer() {
+	public static Data getPlayer() {
 		return getModel().getDataset("player");
 	}
 	
-	public Data[] getFactories() {
+	public static Data[] getFactories() {
 		return getPlayer().getDatasetArray("factory");
 	}
 	
-	public Data getCurrentFactory() {
+	public static Data getCurrentFactory() {
 		return getFactories()[getFocusValue(Visual.FOCUS_FACTORY_INDEX)];
 	}
 	
-	public Data[] getStock() {
+	public static Data[] getStock() {
 		return getPlayer().getDatasetArray("stock");
 	}	
 
@@ -121,14 +122,14 @@ public abstract class Screen {
 		focus[index] = value;
 	}
 	
-	public void flagUpdate() {
-		update = !update;
-	}
-	
 //---  Adder Methods   ------------------------------------------------------------------------
 	
  	public void addPanel(String panelName, Panel panel) {
 		panels.put(panelName, panel);
 	}
 	
+//---  Mechanics   ----------------------------------------------------------------------------
+ 	
+
+ 	
 }

@@ -46,6 +46,20 @@ public class Equipment {
 		maintenance = ref.getDoubleArray(MAINTENANCE);
 		images = ref.getStringArray(IMAGE);
 	}
+	
+	public Equipment(Data ref) {
+		assigned = new ArrayList<Person>();
+		product = ref.getString(PRODUCT);
+		name = ref.getString(NAME);
+		level = 0;
+		type = ref.getString(TYPE);
+		
+		cost = ref.getDoubleArray(COST);
+		production = ref.getDoubleArray(PRODUCTION);
+		personnel = ref.getIntArray(PERSONNEL);
+		maintenance = ref.getDoubleArray(MAINTENANCE);
+		images = ref.getStringArray(IMAGE);
+	}
 
 //---  Operations
 	

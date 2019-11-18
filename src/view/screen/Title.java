@@ -10,7 +10,7 @@ public class Title extends Screen{
 
 	@Override
 	public void initialize() {
-		LocalPanel center = new LocalPanel(0, 0, getWidth(), getHeight()) {
+		center = new LocalPanel(0, 0, getWidth(), getHeight()) {
 			public void clickBehaviour(int event) {
 				getVisual().triggerEvent(event);
 			}
@@ -22,7 +22,7 @@ public class Title extends Screen{
 		
 		center.addBackground("back", "/assets/background/back1.png");
 		
-		center.addBorderCustom("bord", 1, getWidth()/2, getHeight() / 3, getWidth() * 3 / 4, getHeight() / 4, 1, true);
+		center.addBorderCustom("bord", 1, getWidth()/2, getHeight() / 3, getWidth() * 3 / 4, getHeight() / 4, 1, true, false);
 		center.addTextCustom("title", 10, getWidth() / 2, getHeight() / 3, "Black Box Technologies", 4);
 		
 		center.addButtonCustom("start", 10, getWidth() / 3, getHeight() * 3 / 4, getWidth() / 5, getHeight() / 8, "Continue", 2, Visual.TITLE_START_OLD);

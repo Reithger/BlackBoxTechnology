@@ -100,4 +100,8 @@ public class Core {
 		visual.updateModel(model.exportData());
 	}
 	
+	public boolean buildEquipment(String factory, String title) {
+		return model.getPlayer().getFactories().get(factory).buildEquipment(title);
+	}
+	
 }

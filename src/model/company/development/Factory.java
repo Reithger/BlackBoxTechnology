@@ -17,6 +17,7 @@ public class Factory {
 	public final static String EMPLOYEES = "employees";
 	public final static String IMAGE = "image";
 	public final static String TYPE = "type";
+	public final static String BUILDABLE = "buildable";
 	
 	public final static String PATH_EQUIPMENT_LIST = "dta/Equipment.dta";
 
@@ -28,6 +29,7 @@ public class Factory {
 	private HashMap<String, Person> employees;
 	private HashMap<String, Equipment> equipment;
 	private String[] images;
+	
 	private Data equipmentList;
 	
 //---  Constructors   -------------------------------------------------------------------------
@@ -35,6 +37,7 @@ public class Factory {
 	public Factory(Company comp, Data dat, Data ref) {
 		try {
 			equipmentList = new Data(new File(PATH_EQUIPMENT_LIST)).getDataset(dat.getString(Equipment.TYPE));
+			//add something here to limit the list based on requirements
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -76,6 +79,12 @@ public class Factory {
 		else {
 			return false;
 		}
+	}
+	
+	public boolean buildEquipment(String nom) {
+		Data d = equipmentList.getDataset(nom);
+		Equipment e = new Equipment(d);
+		return buildEquipment(e);
 	}
 	
 	public boolean assignEmployee(String name, String target) {
@@ -127,6 +136,7 @@ public class Factory {
 		dat.addDataArray(EMPLOYEES, pers);
 		dat.addString(type, TYPE);
 		dat.addStringArray(images, IMAGE);
+		dat.addData(BUILDABLE, equipmentList);
 		return dat;
 	}
 	

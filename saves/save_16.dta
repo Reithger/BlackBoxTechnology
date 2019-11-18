@@ -1,0 +1,38 @@
+"save_16" : D : {
+	"world" : D : {
+	};
+	"name" : s : "save_16",
+	"player" : D : {
+		"factory" : D* : [
+			"Smokestack" : D : {
+				"owner" : s : "company",
+				"image" : s* : ["/assets/art/fac3.png", "/assets/art/fac4.png"],
+				"equipment" : D* : [
+					"Refinery" : D : {
+						"image" : s* : ["/assets/art/fac4.png", "/assets/art/fac3.png"],
+						"product" : s : "",
+						"cost" : d* : [3.0, 5.0, 6.0],
+						"level" : i : 0,
+						"production" : d* : [1.0, 2.0, 3.0],
+						"name" : s : "Refinery",
+						"personnel" : s* : [],
+						"type" : s : "Refinery",
+						"maintenance" : d* : [1.0, 2.0, 2.0],
+					};
+				]
+				"title" : s : "Smokestack",
+				"employees" : D* : [
+				]
+				"type" : s : "Smokestack",
+			};
+		]
+		"money" : d : 0.0,
+		"title" : s : "company",
+		"stock" : D : {
+			"General" : d : 0.0,
+			"Goods" : d : 0.0,
+		};
+		"research" : D : {
+		};
+	};
+};

@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import controller.Core;
 import controller.Data;
+import model.company.development.Factory;
 import view.screen.Development;
 import view.screen.News;
 import view.screen.Nexus;
@@ -18,6 +19,7 @@ public class Visual {
 	
 	public final static int FOCUS_FACTORY_INDEX = 0;
 	public final static int FOCUS_EQUIPMENT_INDEX = 1;
+	public final static int FOCUS_EQUIPMENT_PAGE_INDEX = 2;
 
 	public final static int TITLE_START_OLD = 1;
 	public final static int TITLE_START_NEW = 2;
@@ -25,11 +27,17 @@ public class Visual {
 	public final static int NEXUS_NAVIGATE_RESEARCH = 1;
 	public final static int NEXUS_NAVIGATE_DEVELOPMENT = 2;
 	public final static int NEXUS_NAVIGATE_NEWS = 3;
+	public final static int NEXUS_INCREMENT_FACTORY = 4;
+	public final static int NEXUS_DECREMENT_FACTORY = 5;
 	
 	public final static int RESEARCH_NAVIGATE_NEXUS = 1;
 	
 	public final static int DEVELOPMENT_NAVIGATE_NEXUS = 1;
+	public final static int DEVELOPMENT_INCREMENT_EQUIPMENT = 2;
+	public final static int DEVELOPMENT_DECREMENT_EQUIPMENT = 3;
+	public final static int DEVELOPMENT_EMPTY_EQUIPMENT = 4;
 	public final static int DEVELOPMENT_EQUIPMENT_SELECT_START = 50;
+	public final static int DEVELOPMENT_EQUIPMENT_BUILD_START = 100;
 	
 	public final static int NEWS_NAVIGATE_NEXUS = 1;
 	
@@ -56,17 +64,12 @@ public class Visual {
 					screens.get(current).update();
 			}
 		};
-		Title titlePanel = new Title(0, 0, width, height, this, "title");
-		Nexus nexus = new Nexus(0, 0, width, height, this, "nexus");
-		News news = new News(0, 0, width, height, this, "news");
-		Research research = new Research(0, 0, width, height, this, "research");
-		Development development = new Development(0, 0, width, height, this, "development");
-		addScreen(titlePanel);
-		addScreen(nexus);
-		addScreen(news);
-		addScreen(research);
-		addScreen(development);
-		setActive(titlePanel);
+		addScreen(new Title(0, 0, width, height, this, "title"));
+		addScreen(new Nexus(0, 0, width, height, this, "nexus"));
+		addScreen(new News(0, 0, width, height, this, "news"));
+		addScreen(new Research(0, 0, width, height, this, "research"));
+		addScreen(new Development(0, 0, width, height, this, "development"));
+		setActive("title");
 		Screen.updateFocus(FOCUS_SIZE);
 	}
 	
@@ -128,10 +131,23 @@ public class Visual {
 	
 	private void handleNexus(int event) {
 		switch(event) {
-			case NEXUS_NAVIGATE_RESEARCH : setActive("research"); break;
-			case NEXUS_NAVIGATE_DEVELOPMENT : 
+			case NEXUS_NAVIGATE_RESEARCH : 
+				setActive("research"); 
+				break;
+			case NEXUS_NAVIGATE_DEVELOPMENT :
 				setActive("development");
-				Screen.updateFocusValue(1, -1);
+				Screen.updateFocusValue(FOCUS_EQUIPMENT_INDEX, -1);
+				Screen.updateFocusValue(FOCUS_EQUIPMENT_PAGE_INDEX, 0);
+				break;
+			case NEXUS_INCREMENT_FACTORY :
+				Screen.updateFocusValue(FOCUS_FACTORY_INDEX, (Screen.getFocusValue(FOCUS_FACTORY_INDEX) + 1) % Screen.getFactories().length);
+				break;
+			case NEXUS_DECREMENT_FACTORY :
+				int ind = Screen.getFocusValue(FOCUS_FACTORY_INDEX) - 1;
+				if(ind < 0) {
+					ind = Screen.getFactories().length - 1;
+				}
+				Screen.updateFocusValue(FOCUS_FACTORY_INDEX, ind);
 				break;
 			default : break;
 		}
@@ -150,8 +166,34 @@ public class Visual {
 				Screen.updateFocusValue(FOCUS_EQUIPMENT_INDEX, i - DEVELOPMENT_EQUIPMENT_SELECT_START);
 			}
 		}
+		String[] build = Screen.getCurrentFactory().getDataset(Factory.BUILDABLE).getStringArray("names");
+		for(int i = DEVELOPMENT_EQUIPMENT_BUILD_START; i <= DEVELOPMENT_EQUIPMENT_BUILD_START + build.length; i++) {
+			if(event == i) {
+				if(!core.buildEquipment(Screen.getCurrentFactory().getString(Factory.TITLE), build[i - DEVELOPMENT_EQUIPMENT_BUILD_START])) {
+					Screen s = screens.get(current);
+					s.printTemporaryMessage(s.getWidth() / 2, s.getHeight() / 2, "Insufficient Funds", 60);
+				}
+				else {
+					core.updateVisualModel();
+				}
+			}
+		}
 		switch(event) {
-		  case DEVELOPMENT_NAVIGATE_NEXUS : setActive("nexus");
+		  case DEVELOPMENT_NAVIGATE_NEXUS : 
+			  setActive("nexus");
+			  break;
+		  case DEVELOPMENT_INCREMENT_EQUIPMENT : 
+			  Screen.updateFocusValue(FOCUS_EQUIPMENT_INDEX, (Screen.getFocusValue(FOCUS_EQUIPMENT_INDEX) + 1) % (Screen.getCurrentFactory().getDatasetArray(Factory.EQUIPMENT).length / (Development.EQUIPMENT_COLUMNS * Development.EQUIPMENT_ROWS)));
+			  break;
+		  case DEVELOPMENT_DECREMENT_EQUIPMENT :
+			  int ind = Screen.getFocusValue(FOCUS_EQUIPMENT_INDEX) - 1;
+			  if(ind >= 0) {
+				  Screen.updateFocusValue(FOCUS_EQUIPMENT_INDEX, ind);
+			  }
+			  break;
+		  case DEVELOPMENT_EMPTY_EQUIPMENT :
+			  Screen.updateFocusValue(FOCUS_EQUIPMENT_INDEX, -1);
+			  break;
 		  default : break;
 		}
 	}

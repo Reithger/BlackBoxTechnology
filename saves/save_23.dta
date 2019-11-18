@@ -1,0 +1,59 @@
+"save_23" : D : {
+	"world" : D : {
+	};
+	"name" : s : "save_23",
+	"player" : D : {
+		"factory" : D* : [
+			"Smokestack" : D : {
+				"owner" : s : "company",
+				"image" : s* : ["/assets/art/fac3.png", "/assets/art/fac4.png"],
+				"equipment" : D* : [
+					"Refinery" : D : {
+						"image" : s* : ["/assets/art/fac4.png", "/assets/art/fac3.png"],
+						"product" : s : "",
+						"cost" : d* : [3.0, 5.0, 6.0],
+						"level" : i : 0,
+						"production" : d* : [1.0, 2.0, 3.0],
+						"name" : s : "Refinery",
+						"personnel" : s* : [],
+						"type" : s : "Refinery",
+						"maintenance" : d* : [1.0, 2.0, 2.0],
+					};
+				]
+				"title" : s : "Smokestack",
+				"employees" : D* : [
+				]
+				"type" : s : "Smokestack",
+				"Smokestack" : D : {
+					"names" : s* : ["Refinery", "machine_b"],
+					"Refinery" : D : {
+						"image" : s* : ["/assets/art/fac4.png", "/assets/art/fac3.png"],
+						"product" : s : "something",
+						"cost" : d* : [3.0, 5.0, 6.0],
+						"production" : d* : [1.0, 2.0, 3.0],
+						"personnel" : i* : [1, 1, 2],
+						"type" : s : "Refinery",
+						"maintenance" : d* : [1.0, 2.0, 2.0],
+					};
+					"machine_b" : D : {
+						"image" : s* : ["/assets/art/placeholder.png"],
+						"product" : s : "something'",
+						"cost" : d* : [3.0, 5.0, 6.0],
+						"production" : d* : [1.0, 2.0, 3.0],
+						"personnel" : i* : [1, 1, 2],
+						"type" : s : "machine_b",
+						"maintenance" : d* : [1.0, 2.0, 2.0],
+					};
+				};
+			};
+		]
+		"money" : d : 0.0,
+		"title" : s : "company",
+		"stock" : D : {
+			"General" : d : 0.0,
+			"Goods" : d : 0.0,
+		};
+		"research" : D : {
+		};
+	};
+};

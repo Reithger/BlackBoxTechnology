@@ -1,4 +1,5 @@
 "Smokestack" : D : {
+  "names" : s* : ["Refinery", "machine_b", "machine_c"],
   "Refinery" : D : {
     "cost" : d* : [3, 5, 6],
     "production" : d* : [1, 2, 3],
@@ -14,6 +15,15 @@
     "personnel" : i* : [1, 1, 2],
     "maintenance" : d* : [1, 2, 2],
     "type" : s : "machine_b",
+    "image" : s* : ["/assets/art/placeholder.png"],
+    "product" : s : "something',
+  };
+  "machine_c" : D : {
+    "cost" : d* : [3, 5, 6],
+    "production" : d* : [1, 2, 3],
+    "personnel" : i* : [1, 1, 2],
+    "maintenance" : d* : [1, 2, 2],
+    "type" : s : "machine_c",
     "image" : s* : ["/assets/art/placeholder.png"],
     "product" : s : "something',
   };

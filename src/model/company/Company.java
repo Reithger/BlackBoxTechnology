@@ -25,7 +25,7 @@ public class Company {
 
 	private World world;
 	private String title;
-	private ArrayList<Factory> factory;
+	private HashMap<String, Factory> factory;
 	private Research research;
 	private HashMap<String, Double> stock;
 	private double money;
@@ -37,7 +37,7 @@ public class Company {
 	public Company(World w) {
 		world = w;
 		title = "company";
-		factory = new ArrayList<Factory>();
+		factory = new HashMap<String, Factory>();
 		research = new Research();
 		stock = new HashMap<String, Double>();
 		money = 0;
@@ -47,7 +47,7 @@ public class Company {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		factory.add(new Factory(this, factoryList.getDataset("Smokestack"), factoryList.getDataset("Smokestack")));
+		factory.put("Smokestack", new Factory(this, factoryList.getDataset("Smokestack"), factoryList.getDataset("Smokestack")));
 		for(String s : world.getProducts().keySet()) {
 			stock.put(s, 0.0);
 		}
@@ -62,9 +62,9 @@ public class Company {
 		}
 		title = dat.getString(TITLE);
 		world = w;
-		factory = new ArrayList<Factory>();
+		factory = new HashMap<String, Factory>();
 		for(Data d : dat.getDatasetArray(FACTORY)) {
-			factory.add(new Factory(this, d, factoryList.getDataset(d.getString(Factory.TYPE))));
+			factory.put(d.getString(Factory.TITLE), new Factory(this, d, factoryList.getDataset(d.getString(Factory.TYPE))));
 		}
 		research = new Research();
 		stock = new HashMap<String, Double>();
@@ -77,7 +77,7 @@ public class Company {
 //---  Operations   ---------------------------------------------------------------------------
 	
 	public void iterate() {
-		for (Factory f : factory) {
+		for (Factory f : factory.values()) {
 			f.iterate();
 		}
 	}
@@ -91,7 +91,7 @@ public class Company {
 	}
 
 	public boolean changeMoney(double change) {
-		if(money + change < 0) {
+		if(money + change <= 0) {
 			return false;
 		}
 		money += change;
@@ -100,7 +100,7 @@ public class Company {
 	
 //---  Getter Methods   -----------------------------------------------------------------------
 	
-	public double getStock(Product reference) {
+	public double getStock(String reference) {
 		if(stock.containsKey(reference)) {
 			return stock.get(reference);
 		}
@@ -115,7 +115,7 @@ public class Company {
 		return title;
 	}
 	
-	public ArrayList<Factory> getFactories(){
+	public HashMap<String, Factory> getFactories(){
 		return factory;
 	}
 		
@@ -123,9 +123,10 @@ public class Company {
 		Data dat = new Data(title);
 		dat.addString(title, TITLE);
 		dat.addDouble(money, MONEY);
-		Data[] factori = new Data[factory.size()];
-		for(int i = 0; i < factory.size(); i++) {
-			factori[i] = factory.get(i).exportData();
+		Data[] factori = new Data[factory.keySet().size()];
+		int i = 0;
+		for(String s : factory.keySet()) {
+			factori[i] = factory.get(s).exportData();
 		}
 		dat.addDataArray(FACTORY, factori);
 		Data prod = new Data(STOCK);
