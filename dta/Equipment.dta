@@ -1,31 +1,33 @@
 "Smokestack" : D : {
   "names" : s* : ["Refinery", "machine_b", "machine_c"],
   "Refinery" : D : {
-    "cost" : d* : [3, 5, 6],
+    "cost" : d* : [-3, -5, -6],
     "production" : d* : [1, 2, 3],
     "personnel" : i* : [1, 1, 2],
-    "maintenance" : d* : [1, 2, 2],
+    "maintenance" : d* : [-1, -2, -2],
     "type" : s : "Refinery",
     "image" : s* : ["/assets/art/fac4.png", "/assets/art/fac3.png"],
-    "product" : s : "something",
+    "product" : s : "General Goods",
+    "name" : s : "Refinery",
   };
   "machine_b" : D : {
-    "cost" : d* : [3, 5, 6],
+    "cost" : d* : [-3, -5, -6],
     "production" : d* : [1, 2, 3],
     "personnel" : i* : [1, 1, 2],
-    "maintenance" : d* : [1, 2, 2],
+    "maintenance" : d* : [-1, -2, -2],
     "type" : s : "machine_b",
     "image" : s* : ["/assets/art/placeholder.png"],
-    "product" : s : "something',
+    "product" : s : "General Goods",
+    "name" : s : "machine_b",
   };
   "machine_c" : D : {
-    "cost" : d* : [3, 5, 6],
+    "cost" : d* : [-3, -5, -6],
     "production" : d* : [1, 2, 3],
     "personnel" : i* : [1, 1, 2],
-    "maintenance" : d* : [1, 2, 2],
+    "maintenance" : d* : [-1, -2, -2],
     "type" : s : "machine_c",
     "image" : s* : ["/assets/art/placeholder.png"],
-    "product" : s : "something',
+    "product" : s : "General Goods",
+    "name" : s : "machine_c",
   };
 };
-"test" : s* : []

@@ -1,5 +1,7 @@
 package view.screen;
 
+import java.awt.Color;
+
 import controller.Data;
 import model.company.development.Factory;
 import view.Visual;
@@ -42,25 +44,28 @@ public class Development extends Screen{
 			Data[] equipment = factory.getDatasetArray(Factory.EQUIPMENT);
 			int page = 0;
 			int limit = EQUIPMENT_COLUMNS * EQUIPMENT_ROWS;
-			if(equipment.length >= EQUIPMENT_COLUMNS * EQUIPMENT_ROWS) {
+			if(equipment.length >= limit) {
 				page = Screen.getFocusValue(Visual.FOCUS_EQUIPMENT_PAGE_INDEX);
-				center.addImage("lef", 100, getWidth() / 3 - getWidth() * 7 / 24, getHeight() / 2, true, "/assets/UI/left_arrow.png", 4);
-				center.addButton("lef_int", 100, getWidth() / 3 - getWidth() * 7 / 24, getHeight() / 2, 64, 64, Visual.DEVELOPMENT_INCREMENT_EQUIPMENT, true);
-				center.addImage("rig", 100, getWidth() / 3 + getWidth() * 7 / 24, getHeight() / 2, true, "/assets/UI/right_arrow.png", 4);
-				center.addButton("rig_int", 100, getWidth() / 3 + getWidth() * 7 / 24, getHeight() / 2, 64, 64, Visual.DEVELOPMENT_DECREMENT_EQUIPMENT, true);
+				center.addImage("lef", 100, getWidth() * 3 / 8 - getWidth() * 8 / 24, getHeight() / 2, true, "/assets/UI/left_arrow.png", 4);
+				center.addButton("lef_int", 100, getWidth() * 3 / 8 - getWidth() * 8 / 24, getHeight() / 2, 64, 64, Visual.DEVELOPMENT_DECREMENT_EQUIPMENT, true);
+				center.addImage("rig", 100, getWidth() * 3 / 8 + getWidth() * 8 / 24, getHeight() / 2, true, "/assets/UI/right_arrow.png", 4);
+				center.addButton("rig_int", 100, getWidth() * 3 / 8 + getWidth() * 8 / 24, getHeight() / 2, 64, 64, Visual.DEVELOPMENT_INCREMENT_EQUIPMENT, true);
+				center.addTextCustom("page", 100, getWidth() * 3 / 8, getHeight() * 9 / 10, (Screen.getFocusValue(Visual.FOCUS_EQUIPMENT_PAGE_INDEX) + 1)+ " / " + (equipment.length / limit + 1), 1);
 			}
-			for(int i = page * limit; i < (page + 1) * limit; i++) {
+			for(int i = 0; i < limit; i++) {
 				int x = (int)((double)((int)(i % EQUIPMENT_COLUMNS) + 1) / (EQUIPMENT_COLUMNS + 1) * getWidth() * 3 / 4);
 				int y = (int)((double)((int)(i / EQUIPMENT_COLUMNS) + 1) / (EQUIPMENT_ROWS + 1) * getHeight());
 				
 				int wid = getWidth() * 3 / 4 / (EQUIPMENT_COLUMNS + 1);
 				int hei = getHeight() / (EQUIPMENT_ROWS + 1);
-				
-				if(i < equipment.length) {
-					Data d = equipment[i];
-					center.addEquipmentDecal(factory.getString(Factory.TITLE) + "_" + i, 10, x, y, wid, hei, d, Visual.DEVELOPMENT_EQUIPMENT_SELECT_START + i, getCycle());
+								
+				if(i + (page * limit) < equipment.length) {
+					Data d = equipment[i + (page * limit)];
+					center.addEquipmentDecal(factory.getString(Factory.TITLE) + "_" + i, 10, x, y, wid, hei, d, Visual.DEVELOPMENT_EQUIPMENT_SELECT_START + i + (page * limit), getCycle());
+					center.removeElement("new_equi_" + i);
 				}
 				else {
+					center.removeElementPrefixed(factory.getString(Factory.TITLE)+ "_" + i);
 					center.addBorderCustom(factory.getString(Factory.TITLE) + "_" + i, 10, x, y, wid, hei, 1, true, false);
 					center.addButton("new_equi_" + i, 10, x, y, wid, hei, Visual.DEVELOPMENT_EMPTY_EQUIPMENT, true);
 				}
@@ -68,7 +73,8 @@ public class Development extends Screen{
 			
 			if(Screen.getFocusValue(Visual.FOCUS_EQUIPMENT_INDEX) >= 0) {
 				center.removeElementPrefixed("build");
-				Data d = getFactories()[Screen.getFocusValue(Visual.FOCUS_FACTORY_INDEX)].getDatasetArray(Factory.EQUIPMENT)[Screen.getFocusValue(Visual.FOCUS_EQUIPMENT_INDEX)];
+				center.removeElementPrefixed("det");
+				Data d = equipment[Screen.getFocusValue(Visual.FOCUS_EQUIPMENT_INDEX)];
 				center.addEquipmentInfo("det", 10, getWidth() * 7 / 8, getHeight() / 2, getWidth() / 4, getHeight(), d, getCycle());
 			}
 			else {
@@ -79,7 +85,7 @@ public class Development extends Screen{
 					center.addBuildableInfo("build_" + i, 100, getWidth() * 7 / 8, (int)(getHeight() * (i + 1.0) / (names.length + 1)), getWidth() / 4, getHeight() / 4, d.getDataset(names[i]), Visual.DEVELOPMENT_EQUIPMENT_BUILD_START + i, getCycle());
 				}
 			}
-			if(getCycle() > LocalPanel.ANIMATION_RATE * getFactories()[Screen.getFocusValue(Visual.FOCUS_FACTORY_INDEX)].getStringArray(Factory.IMAGE).length) {
+			if(getCycle() > LocalPanel.ANIMATION_RATE * factory.getStringArray(Factory.IMAGE).length) {
 				updateCycle(0);
 			}
 		}

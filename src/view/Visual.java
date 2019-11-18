@@ -171,7 +171,7 @@ public class Visual {
 			if(event == i) {
 				if(!core.buildEquipment(Screen.getCurrentFactory().getString(Factory.TITLE), build[i - DEVELOPMENT_EQUIPMENT_BUILD_START])) {
 					Screen s = screens.get(current);
-					s.printTemporaryMessage(s.getWidth() / 2, s.getHeight() / 2, "Insufficient Funds", 60);
+					s.printTemporaryMessage(s.getWidth() / 2, s.getHeight() * 9 / 10, "Insufficient Funds", 30);
 				}
 				else {
 					core.updateVisualModel();
@@ -183,12 +183,12 @@ public class Visual {
 			  setActive("nexus");
 			  break;
 		  case DEVELOPMENT_INCREMENT_EQUIPMENT : 
-			  Screen.updateFocusValue(FOCUS_EQUIPMENT_INDEX, (Screen.getFocusValue(FOCUS_EQUIPMENT_INDEX) + 1) % (Screen.getCurrentFactory().getDatasetArray(Factory.EQUIPMENT).length / (Development.EQUIPMENT_COLUMNS * Development.EQUIPMENT_ROWS)));
+			  Screen.updateFocusValue(FOCUS_EQUIPMENT_PAGE_INDEX, (Screen.getFocusValue(FOCUS_EQUIPMENT_PAGE_INDEX) + 1) % (int)((Screen.getCurrentFactory().getDatasetArray(Factory.EQUIPMENT).length / (Development.EQUIPMENT_COLUMNS * Development.EQUIPMENT_ROWS) + 1)));
 			  break;
 		  case DEVELOPMENT_DECREMENT_EQUIPMENT :
-			  int ind = Screen.getFocusValue(FOCUS_EQUIPMENT_INDEX) - 1;
+			  int ind = Screen.getFocusValue(FOCUS_EQUIPMENT_PAGE_INDEX) - 1;
 			  if(ind >= 0) {
-				  Screen.updateFocusValue(FOCUS_EQUIPMENT_INDEX, ind);
+				  Screen.updateFocusValue(FOCUS_EQUIPMENT_PAGE_INDEX, ind);
 			  }
 			  break;
 		  case DEVELOPMENT_EMPTY_EQUIPMENT :

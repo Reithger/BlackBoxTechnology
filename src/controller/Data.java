@@ -90,7 +90,7 @@ public class Data {
 				  }
 				  break;
 			  case INT_ARR:
-				  String[] workInt = details[2].replaceAll("[^\\d,]", "").split(",");
+				  String[] workInt = details[2].replaceAll("[^\\d,-]", "").split(",");
 				  int[] outInt = new int[workInt.length];
 				  for(int i = 0; i < workInt.length; i++) {
 					  outInt[i] = Integer.parseInt(workInt[i]);
@@ -111,7 +111,7 @@ public class Data {
 				  }
 				  break;
 			  case DBL_ARR:
-				  String[] workDbl = details[2].replaceAll("[^\\d,]", "").split(",");
+				  String[] workDbl = details[2].replaceAll("[^\\d,-]", "").split(",");
 				  double[] outDbl = new double[workDbl.length];
 				  for(int i = 0; i < workDbl.length; i++) {
 					  outDbl[i] = Double.parseDouble(workDbl[i]);
@@ -187,7 +187,6 @@ public class Data {
 			e.printStackTrace();
 		}
 	}
-
 
 //---  Setter Methods   -----------------------------------------------------------------------
 	

@@ -139,7 +139,7 @@ public class LocalPanel extends ElementPanel{
 	public void addFadingText(String name, int priority, int x, int y, String phrase, int scale, int time) {
 		decayObject.add(name + "_tex");
 		decayTimer.put(name + "_tex", time);
-		addTextCustom(name, priority, x, y, phrase, scale);
+		addTextCustom(name + "_tex", priority, x, y, phrase, scale);
 	}
 	
 	public void addFactoryDecal(String name, int priority, int x, int y, int width, int height, Data dat, int cycle) {
@@ -174,9 +174,11 @@ public class LocalPanel extends ElementPanel{
 		int level = dat.getInt(Equipment.LEVEL);
 		addTextCustom(name + "_nom", priority, x, y - height * 7 / 16, "Name: " + dat.getString(Equipment.NAME), 2);
 		addTextCustom(name + "_typ", priority, x, y - height * 6 / 16, dat.getString(Equipment.TYPE) + ": " + level, 2);
-		addTextCustom(name + "_makes", priority, x, y - height * 5 / 16, "Producing: " + dat.getString(Equipment.PRODUCT), 2);
+		addTextCustom(name + "_makes_title", priority, x, y - height * 5 / 16, "Producing: ", 2);
+
+		addTextCustom(name + "_makes", priority, x, y - height * 17 / 64, dat.getString(Equipment.PRODUCT), 2);
 		
-		addImage(name + "_fac", priority + 5, x, y - height * 5 / 32, true, imgPath, 3);
+		addImage(name + "_fac", priority + 5, x, y - height * 9 / 64, true, imgPath, 3);
 		
 		addTextCustom(name + "_cost", priority, x, y, "Cost: " + dat.getDoubleArray(Equipment.COST)[level], 2);
 		addTextCustom(name + "_produc", priority, x, y + height * 1 / 16, "Production: " + dat.getDoubleArray(Equipment.PRODUCTION)[level], 2);
@@ -242,6 +244,7 @@ public class LocalPanel extends ElementPanel{
 				decayTimer.put(decayObject.peekFirst(), time - 1);
 			}
 			else {
+				removeElementPrefixed(decayObject.peekFirst());
 				decayTimer.remove(decayObject.pop());
 			}
 		}

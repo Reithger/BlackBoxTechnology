@@ -68,7 +68,7 @@ public class Company {
 		}
 		research = new Research();
 		stock = new HashMap<String, Double>();
-		money = 0;
+		money = dat.getDouble(MONEY);
 		for(String s : world.getProducts().keySet()) {
 			stock.put(s, 0.0);
 		}

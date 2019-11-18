@@ -71,8 +71,11 @@ public class Factory {
 	
 	public boolean buildEquipment(Equipment e) {
 		if(owner.changeMoney(e.buildCost())) {
-			while(equipment.keySet().contains(e.getTitle()))
-				e.setTitle(e.getTitle() + "_1");
+			int count = 1;
+			String name = e.getTitle();
+			while(equipment.keySet().contains(name + "_" + count))
+				count++;
+			e.setTitle(name + "_" + count);
 			equipment.put(e.getTitle(), e);
 			return true;
 		}

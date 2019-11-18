@@ -5,7 +5,7 @@
       "name" : s : "Refinery",
       "level" : i : 0,
       "type" : s : "Refinery",
-      "product" : s : "",
+      "product" : s : "General Goods",
     };
   ]
   "type" : s : "Smokestack",
