@@ -1,7 +1,7 @@
-"save" : D : {
+"save_7" : D : {
 	"world" : D : {
 	};
-	"name" : s : "save",
+	"name" : s : "save_7",
 	"player" : D : {
 		"factory" : D* : [
 			"Smokestack" : D : {

@@ -22,7 +22,7 @@ public class Title extends Screen{
 		
 		center.addBackground("back", "/assets/background/back1.png");
 		
-		center.addBorderCustom("bord", 1, getWidth()/2, getHeight() / 3, getWidth() * 3 / 4, getHeight() / 4, true);
+		center.addBorderCustom("bord", 1, getWidth()/2, getHeight() / 3, getWidth() * 3 / 4, getHeight() / 4, 1, true);
 		center.addTextCustom("title", 10, getWidth() / 2, getHeight() / 3, "Black Box Technologies", 4);
 		
 		center.addButtonCustom("start", 10, getWidth() / 3, getHeight() * 3 / 4, getWidth() / 5, getHeight() / 8, "Continue", 2, Visual.TITLE_START_OLD);

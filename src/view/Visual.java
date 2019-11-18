@@ -13,6 +13,11 @@ import view.screen.Title;
 import visual.frame.WindowFrame;
 
 public class Visual {
+	
+	public final static int FOCUS_SIZE = 100;
+	
+	public final static int FOCUS_FACTORY_INDEX = 0;
+	public final static int FOCUS_EQUIPMENT_INDEX = 1;
 
 	public final static int TITLE_START_OLD = 1;
 	public final static int TITLE_START_NEW = 2;
@@ -24,6 +29,7 @@ public class Visual {
 	public final static int RESEARCH_NAVIGATE_NEXUS = 1;
 	
 	public final static int DEVELOPMENT_NAVIGATE_NEXUS = 1;
+	public final static int DEVELOPMENT_EQUIPMENT_SELECT_START = 50;
 	
 	public final static int NEWS_NAVIGATE_NEXUS = 1;
 	
@@ -61,6 +67,7 @@ public class Visual {
 		addScreen(research);
 		addScreen(development);
 		setActive(titlePanel);
+		Screen.updateFocus(FOCUS_SIZE);
 	}
 	
 //---  Operations   ---------------------------------------------------------------------------
@@ -122,7 +129,10 @@ public class Visual {
 	private void handleNexus(int event) {
 		switch(event) {
 			case NEXUS_NAVIGATE_RESEARCH : setActive("research"); break;
-			case NEXUS_NAVIGATE_DEVELOPMENT : setActive("development"); break;
+			case NEXUS_NAVIGATE_DEVELOPMENT : 
+				setActive("development");
+				Screen.updateFocusValue(1, -1);
+				break;
 			default : break;
 		}
 	}
@@ -135,6 +145,11 @@ public class Visual {
 	}
 	
 	private void handleDevelopment(int event) {
+		for(int i = DEVELOPMENT_EQUIPMENT_SELECT_START; i <= DEVELOPMENT_EQUIPMENT_SELECT_START + Development.EQUIPMENT_COLUMNS * Development.EQUIPMENT_ROWS; i++) {
+			if(event == i) {
+				Screen.updateFocusValue(FOCUS_EQUIPMENT_INDEX, i - DEVELOPMENT_EQUIPMENT_SELECT_START);
+			}
+		}
 		switch(event) {
 		  case DEVELOPMENT_NAVIGATE_NEXUS : setActive("nexus");
 		  default : break;

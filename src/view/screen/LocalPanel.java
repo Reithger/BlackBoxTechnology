@@ -7,12 +7,13 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import controller.Data;
+import model.company.development.Equipment;
 import model.company.development.Factory;
 import visual.panel.ElementPanel;
 
 public class LocalPanel extends ElementPanel{
 	
-	public final static int ANIMATION_RATE = 5;
+	public final static int ANIMATION_RATE = 10;
 
 //---  Constructors   -------------------------------------------------------------------------
 	
@@ -24,16 +25,19 @@ public class LocalPanel extends ElementPanel{
 	
 	public void addBackground(String name, String path) {
 		addImage(name, 0, 0, 0, ElementPanel.NON_CENTERED, path, 14);
+		addBorderCustom("border", 100, 0, 0, getWidth(), getHeight(), 2, false);
 	}
 	
-	public void addBorderCustom(String name, int priority, int x, int y, int width, int height, boolean centered) {
+	public void addBorderCustom(String name, int priority, int x, int y, int width, int height, int size, boolean centered) {
 		if(new File("decal/").listFiles() == null) {
 			(new File("decal/")).mkdir();
 		}
-		String path = "decal/b_" + width + "_" + height + ".png";
+		String path = "decal/b_" + size + "_" + width + "_" + height + ".png";
+		width /= size;
+		height /= size;
 		CustomImage newImg = new CustomImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		if(newImg.retrieveImage(path) != null) {
-			this.addImage(name + "_bord", priority, x, y, centered, path);
+			this.addImage(name + "_bord", priority, x, y, centered, path, size);
 			return;
 		}
 		int across = width / 16;
@@ -107,11 +111,11 @@ public class LocalPanel extends ElementPanel{
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		this.addImage(name + "_bord", priority, x, y, centered, newImg);
+		this.addImage(name + "_bord", priority, x, y, centered, newImg, size);
 	}
 	
 	public void addButtonCustom(String name, int priority, int x, int y, int width, int height, String phrase, int scaleText, int code) {
-		addBorderCustom(name + "_bord", priority, x, y, width, height, true);
+		addBorderCustom(name + "_bord", priority, x, y, width, height, 1, true);
 		addTextCustom(name + "_img", priority + 1, x, y, phrase, scaleText);
 		addButton(name + "_butt", priority, x, y, width, height, code, ElementPanel.CENTERED);
 	}
@@ -129,7 +133,7 @@ public class LocalPanel extends ElementPanel{
 		if(dat == null) {
 			return;
 		}
-		this.addBorderCustom(name, priority, x,  y, width, height, true);
+		this.addBorderCustom(name, priority, x,  y, width, height, 1, true);
 		
 		addTextCustom(name + "_nom", priority + 5, x, y - height / 4, dat.getString(Factory.TITLE), 2);
 		addTextCustom(name + "_equi", priority + 5, x, y + height / 4, "Equipment: " + dat.getDatasetArray(Factory.EQUIPMENT).length, 2);
@@ -140,8 +144,23 @@ public class LocalPanel extends ElementPanel{
 		addImage(name + "_fac", priority + 5, x, y, true, imgPath, 4);	
 	}
 	
-	public void addEquipmentDecale(String name, int priority, int x, int y, int width, int height, Data dat, int cycle) {
+	public void addEquipmentDecal(String name, int priority, int x, int y, int width, int height, Data dat, int code, int cycle) {
+		addBorderCustom(name, priority, x, y, width, height, 1, true);
+
+		addTextCustom(name + "_nom", priority + 5, x, y + height / 4, dat.getString(Equipment.TYPE), 2);
+		addTextCustom(name + "_lev", priority + 5, x, y + height * 3 / 8, "Level: " + dat.getInt(Equipment.LEVEL), 2);
+		addButton(name + "_but", priority, x, y, width, height, code, true);
 		
+		String imgPath = dat.getStringArray(Equipment.IMAGE)[cycle % (ANIMATION_RATE * dat.getStringArray(Equipment.IMAGE).length) / ANIMATION_RATE];
+		addImage(name + "_fac", priority + 5, x, y - height * 3 / 16, true, imgPath, 2);
+	}
+	
+	
+	public void addEquipmentInfo(String name, int priority, int x, int y, int width, int height, Data dat, int cycle) {
+		addBorderCustom(name, priority, x, y, width, height, 1, true);
+		
+		String imgPath = dat.getStringArray(Equipment.IMAGE)[cycle % (ANIMATION_RATE * dat.getStringArray(Equipment.IMAGE).length) / ANIMATION_RATE];
+		addImage(name + "_fac", priority + 5, x, y - height * 3 / 16, true, imgPath, 2);
 	}
 	
 //---  Mechanics   ----------------------------------------------------------------------------
