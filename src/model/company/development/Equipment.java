@@ -120,7 +120,7 @@ public class Equipment {
 	}
 	
 	public double upgradeCost() {
-		return cost[level];
+		return cost[level + 1];
 	}
 
 	public String getTitle() {
@@ -138,7 +138,8 @@ public class Equipment {
 //---  Mechanics   ----------------------------------------------------------------------------
 	
 	public Data exportData() {
-		Data dat = new Data(name);
+		Data dat = new Data();
+		dat.setTitle(name);
 		String[] names = new String[assigned.size()];
 		for(int i = 0; i < assigned.size(); i++) {
 			names[i] = assigned.get(i).getName();

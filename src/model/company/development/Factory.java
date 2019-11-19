@@ -1,9 +1,9 @@
 package model.company.development;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import controller.Data;
+import model.Model;
 import model.company.Company;
 import model.world.people.Person;
 
@@ -17,9 +17,6 @@ public class Factory {
 	public final static String EMPLOYEES = "employees";
 	public final static String IMAGE = "image";
 	public final static String TYPE = "type";
-	public final static String BUILDABLE = "buildable";
-	
-	public final static String PATH_EQUIPMENT_LIST = "dta/Equipment.dta";
 
 //---  Instance Variables   -------------------------------------------------------------------
 	
@@ -36,7 +33,7 @@ public class Factory {
 	
 	public Factory(Company comp, Data dat, Data ref) {
 		try {
-			equipmentList = new Data(new File(PATH_EQUIPMENT_LIST)).getDataset(dat.getString(Equipment.TYPE));
+			equipmentList = new Data(Model.PATH_EQUIPMENT).getDataset(dat.getString(Equipment.TYPE));
 			//add something here to limit the list based on requirements
 		}
 		catch(Exception e) {
@@ -90,6 +87,11 @@ public class Factory {
 		return buildEquipment(e);
 	}
 	
+	public boolean upgradeEquipment(String nom) {
+		Equipment e = equipment.get(nom);
+		return owner.changeMoney(e.upgradeCost()) && e.increaseLevel();
+	}
+	
 	public boolean assignEmployee(String name, String target) {
 		if(equipment.get(target) != null && employees.get(name) != null) {
 			return equipment.get(target).assignEmployee(employees.get(name));
@@ -122,7 +124,8 @@ public class Factory {
 //---  Mechanics   ----------------------------------------------------------------------------
 	
 	public Data exportData() {
-		Data dat = new Data(name);
+		Data dat = new Data();
+		dat.setTitle(name);
 		dat.addString(name, TITLE);
 		dat.addString(owner.getName(), OWNER);
 		Data[] equi = new Data[equipment.size()];
@@ -139,7 +142,6 @@ public class Factory {
 		dat.addDataArray(EMPLOYEES, pers);
 		dat.addString(type, TYPE);
 		dat.addStringArray(images, IMAGE);
-		dat.addData(BUILDABLE, equipmentList);
 		return dat;
 	}
 	

@@ -1,0 +1,6 @@
+"products" : s* : ["General Goods"],
+"General Goods" : D : {
+  "name" : s : "General Goods",
+  "default_value" : d : 5.5,
+  "default_demand" : d : .5,
+};

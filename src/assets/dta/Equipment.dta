@@ -1,0 +1,56 @@
+"Smokestack" : D : {
+  "names" : s* : ["Burner", "machine_b", "machine_c"],
+  "Burner" : D : {
+    "cost" : d* : [-3, -5, -6, -12],
+    "production" : d* : [1, 2, 3],
+    "personnel" : i* : [1, 1, 2],
+    "maintenance" : d* : [-1, -2, -2],
+    "type" : s : "Burner",
+    "image" : s* : ["/assets/art/burner7.png", "/assets/art/burner5.png", "/assets/art/burner6.png", "/assets/art/burner5.png", "/assets/art/burner7.png", "/assets/art/burner5.png"],
+    "product" : s : "General Goods",
+    "name" : s : "Burner",
+  };
+  "machine_b" : D : {
+    "cost" : d* : [-3, -5, -6, -12],
+    "production" : d* : [1, 2, 3],
+    "personnel" : i* : [1, 1, 2],
+    "maintenance" : d* : [-1, -2, -2],
+    "type" : s : "machine_b",
+    "image" : s* : ["/assets/art/placeholder.png"],
+    "product" : s : "General Goods",
+    "name" : s : "machine_b",
+  };
+  "machine_c" : D : {
+    "cost" : d* : [-3, -5, -6, -12],
+    "production" : d* : [1, 2, 3],
+    "personnel" : i* : [1, 1, 2],
+    "maintenance" : d* : [-1, -2, -2],
+    "type" : s : "machine_c",
+    "image" : s* : ["/assets/art/placeholder.png"],
+    "product" : s : "General Goods",
+    "name" : s : "machine_c",
+  };
+};
+"Refinery" : D : {
+  "names" : s* : ["machine_b", "machine_c"],
+  "machine_b" : D : {
+    "cost" : d* : [-3, -5, -6, -12],
+    "production" : d* : [1, 2, 3],
+    "personnel" : i* : [1, 1, 2],
+    "maintenance" : d* : [-1, -2, -2],
+    "type" : s : "machine_b",
+    "image" : s* : ["/assets/art/placeholder.png"],
+    "product" : s : "General Goods",
+    "name" : s : "machine_b",
+  };
+  "machine_c" : D : {
+    "cost" : d* : [-3, -5, -6, -12],
+    "production" : d* : [1, 2, 3],
+    "personnel" : i* : [1, 1, 2],
+    "maintenance" : d* : [-1, -2, -2],
+    "type" : s : "machine_c",
+    "image" : s* : ["/assets/art/placeholder.png"],
+    "product" : s : "General Goods",
+    "name" : s : "machine_c",
+  };
+};

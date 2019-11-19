@@ -6,6 +6,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import javax.imageio.ImageIO;
+
+import visual.frame.WindowFrame;
+import visual.panel.ElementPanel;
+
 public class Data {
 	
 	private final static String INT = "i";
@@ -33,9 +38,10 @@ public class Data {
 	
 //---  Constructors   -------------------------------------------------------------------------
 	
-	public Data(File f) throws Exception{
+	public Data(String path) throws Exception{
 		data = new HashMap<String, Object>();
 		types = new HashMap<String, String>();
+		File f = retrieveFile(path);
 		RandomAccessFile raf = new RandomAccessFile(f, "r");
 		String line = raf.readLine();
 		LinkedList<Data> next = new LinkedList<Data>();
@@ -142,7 +148,8 @@ public class Data {
 				  }
 				  break;
 			  case DAT:
-				  Data common = new Data(name);
+				  Data common = new Data();
+				  common.setTitle(name);
 				  next.add(common);
 				  break;
 			  case DAT_ARR:
@@ -157,12 +164,6 @@ public class Data {
 		  line = raf.readLine();
 		}
 		raf.close();
-	}
-	
-	public Data(String name) {
-		data = new HashMap<String, Object>();
-		types = new HashMap<String, String>();
-		setTitle(name);
 	}
 	
 	public Data() {
@@ -354,4 +355,20 @@ public class Data {
 		return in.replaceAll("(?<![\\\\])\",", "").replaceAll("(?<![\\\\])\"", "").replaceAll("\\\\\"", "\"");
 	}
 
+	public File retrieveFile(String pathIn) {
+		String path = pathIn.replace("\\", "/");
+		try {
+			return(new File(Data.class.getResource(path.substring(path.indexOf("/"))).toURI()));
+		}
+		catch(Exception e) {
+			try {
+				return(new File(path));
+			}
+			catch(Exception e1) {
+				e1.printStackTrace();
+				return null;
+			}
+		}
+	}
+	
 }

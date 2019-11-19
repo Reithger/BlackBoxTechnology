@@ -28,7 +28,7 @@ public class Core {
 			if(name.substring(name.length() - 4, name.length()).equals(".dta")) {
 				name = name.substring(0, name.length() - 4);
 			}
-			Data saveFile = new Data(new File("saves/" + name + ".dta"));
+			Data saveFile = new Data("saves/" + name + ".dta");
 			model = new Model(name, saveFile.getDataset(name));
 			updateVisualModel();
 			visual.setActive("nexus");
@@ -90,9 +90,9 @@ public class Core {
 		};
 		lP.addBackground("back", "/assets/background/back3.png");
 		for(int i = 0; i < fS.length; i++) {
-			lP.addButtonCustom("file_" + i, 10, disp.getWidth()/2, disp.getHeight() * 2 / 10 + i * disp.getHeight() / 7, disp.getWidth() / 2, disp.getHeight()/10, fS[i].getName(), 2, i);
+			lP.addButtonCustom("file_" + i, 10, SELECT_WIDTH/2, SELECT_HEIGHT * 2 / 10 + i * SELECT_HEIGHT / 7, SELECT_WIDTH / 2, SELECT_HEIGHT/10, fS[i].getName(), 2, i);
 		}
-		lP.addButtonCustom("back", 10, disp.getWidth() / 8, disp.getHeight() * 9 / 10, disp.getWidth() / 5, disp.getHeight() / 10, "Back", 2, -1);
+		lP.addButtonCustom("back", 10, SELECT_WIDTH / 8, SELECT_HEIGHT * 9 / 10, SELECT_WIDTH / 5, SELECT_HEIGHT / 10, "Back", 2, -1);
 		disp.addPanelToScreen(lP);
 	}
 	
@@ -102,6 +102,14 @@ public class Core {
 	
 	public boolean buildEquipment(String factory, String title) {
 		return model.getPlayer().getFactories().get(factory).buildEquipment(title);
+	}
+	
+	public boolean upgradeEquipment(String factory, String title) {
+		return model.getPlayer().getFactories().get(factory).upgradeEquipment(title);
+	}
+	
+	public Data getReference(String ref) {
+		return model.getReference(ref);
 	}
 	
 }

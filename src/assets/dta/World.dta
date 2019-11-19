@@ -1,0 +1,43 @@
+"gender" : D : {
+	"male" : D : {
+		"possessive" : s : "his",
+		"subject" : s : "he",
+		"pronoun" : s : "him",
+		"title" : s : "Male",
+	};
+	"female" : D : {
+		"possessive" : s : "her",
+		"subject" : s : "her",
+		"pronoun" : s : "she",
+		"title" : s : "Female",
+	};
+	"nonbinary" : D : {
+		"possessive" : s : "their",
+		"subject" : s : "they",
+		"pronoun" : s : "they",
+		"title" : s : "Non-Binary",
+	};
+};
+"race" : s* : ["Simota", "Rhoan", "Aortin"],
+"sexuality" : s* : ["Straight", "Gay", "Bi", "Pan", "Ace", "Aro"],
+"country" : D : {
+	"Simota" : D : {
+		"population" : D : {
+			"gender" : d* : [.47, .46, .07],
+			"race" : d* : [.76, .06, .18],
+			"sexuality" : d* : [.6, .14, .12, .08, .03, .03],
+		};
+		"consideration" : D : {
+			"gender" : d* : [.87, .78, .34],
+			"race" : d* : [1, .64, .76],
+			"sexuality" : d* : [1, .3, .26, .23, .3, .4],
+		};
+	};
+	"Rhoan" : D : {
+	};
+	"Aortin" : D : {
+	};
+};
+"products" : D : {
+  
+};

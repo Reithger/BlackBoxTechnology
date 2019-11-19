@@ -1,0 +1,32 @@
+"Smokestack" : D : {
+  "owner" : s : "Company",
+  "equipment" : D* : [
+    "Refinery" : D : {
+      "name" : s : "Burner",
+      "level" : i : 0,
+      "type" : s : "Burner",
+      "product" : s : "General Goods",
+    };
+  ]
+  "type" : s : "Smokestack",
+  "title" : s : "Smokestack",
+  "employees" : D* : [
+  ]
+  "image" : s* : ["/assets/art/fac3.png", "/assets/art/fac4.png"],
+};
+"Refinery" : D : {
+  "owner" : s : "Company",
+  "equipment" : D* : [
+    "Forge" : D : {
+      "name" : s : "Forge",
+      "level" : i : 0,
+      "type" : s : "Refinery",
+      "product" : s : "General Goods",
+    };
+  ]
+  "type" : s : "Refinery",
+  "title" : s : "Refinery",
+  "employees" : D* : [
+  ]
+  "image" : s* : ["/assets/art/placeholder.png"],
+};

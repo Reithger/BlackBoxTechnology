@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import controller.Core;
 import controller.Data;
+import model.Model;
+import model.company.development.Equipment;
 import model.company.development.Factory;
 import view.screen.Development;
 import view.screen.News;
@@ -36,6 +38,7 @@ public class Visual {
 	public final static int DEVELOPMENT_INCREMENT_EQUIPMENT = 2;
 	public final static int DEVELOPMENT_DECREMENT_EQUIPMENT = 3;
 	public final static int DEVELOPMENT_EMPTY_EQUIPMENT = 4;
+	public final static int DEVELOPMENT_EQUIPMENT_UPGRADE = 5;
 	public final static int DEVELOPMENT_EQUIPMENT_SELECT_START = 50;
 	public final static int DEVELOPMENT_EQUIPMENT_BUILD_START = 100;
 	
@@ -104,6 +107,10 @@ public class Visual {
 		return model;
 	}
 		
+	public Data getReference(String ref) {
+		return core.getReference(ref);
+	}
+	
 //---  Interaction Handling   -----------------------------------------------------------------
 	
 	public void triggerEvent(int event) {
@@ -166,10 +173,11 @@ public class Visual {
 				Screen.updateFocusValue(FOCUS_EQUIPMENT_INDEX, i - DEVELOPMENT_EQUIPMENT_SELECT_START);
 			}
 		}
-		String[] build = Screen.getCurrentFactory().getDataset(Factory.BUILDABLE).getStringArray("names");
+		Data factor = Screen.getCurrentFactory();
+		String[] build = core.getReference(Model.PATH_EQUIPMENT).getDataset(factor.getString(Factory.TITLE)).getStringArray("names");
 		for(int i = DEVELOPMENT_EQUIPMENT_BUILD_START; i <= DEVELOPMENT_EQUIPMENT_BUILD_START + build.length; i++) {
 			if(event == i) {
-				if(!core.buildEquipment(Screen.getCurrentFactory().getString(Factory.TITLE), build[i - DEVELOPMENT_EQUIPMENT_BUILD_START])) {
+				if(!core.buildEquipment(factor.getString(Factory.TITLE), build[i - DEVELOPMENT_EQUIPMENT_BUILD_START])) {
 					Screen s = screens.get(current);
 					s.printTemporaryMessage(s.getWidth() / 2, s.getHeight() * 9 / 10, "Insufficient Funds", 30);
 				}
@@ -183,7 +191,7 @@ public class Visual {
 			  setActive("nexus");
 			  break;
 		  case DEVELOPMENT_INCREMENT_EQUIPMENT : 
-			  Screen.updateFocusValue(FOCUS_EQUIPMENT_PAGE_INDEX, (Screen.getFocusValue(FOCUS_EQUIPMENT_PAGE_INDEX) + 1) % (int)((Screen.getCurrentFactory().getDatasetArray(Factory.EQUIPMENT).length / (Development.EQUIPMENT_COLUMNS * Development.EQUIPMENT_ROWS) + 1)));
+			  Screen.updateFocusValue(FOCUS_EQUIPMENT_PAGE_INDEX, (Screen.getFocusValue(FOCUS_EQUIPMENT_PAGE_INDEX) + 1) % (int)((factor.getDatasetArray(Factory.EQUIPMENT).length / (Development.EQUIPMENT_COLUMNS * Development.EQUIPMENT_ROWS) + 1)));
 			  break;
 		  case DEVELOPMENT_DECREMENT_EQUIPMENT :
 			  int ind = Screen.getFocusValue(FOCUS_EQUIPMENT_PAGE_INDEX) - 1;
@@ -193,6 +201,12 @@ public class Visual {
 			  break;
 		  case DEVELOPMENT_EMPTY_EQUIPMENT :
 			  Screen.updateFocusValue(FOCUS_EQUIPMENT_INDEX, -1);
+			  break;
+		  case DEVELOPMENT_EQUIPMENT_UPGRADE :
+			  if(!core.upgradeEquipment(factor.getString(Factory.TITLE), factor.getDatasetArray(Factory.EQUIPMENT)[Screen.getFocusValue(FOCUS_EQUIPMENT_INDEX)].getString(Equipment.NAME))) {
+				  Screen s = screens.get(current);
+			      s.printTemporaryMessage(s.getWidth() / 2, s.getHeight() * 9 / 10, "Insufficient Funds", 30);
+			  }
 			  break;
 		  default : break;
 		}

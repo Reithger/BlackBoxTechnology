@@ -57,7 +57,8 @@ public class Person {
 	}
 	
 	public Data exportData() {
-		Data dat = new Data(name);
+		Data dat = new Data();
+		dat.setTitle(name);
 		dat.addString(name, NAME);
 		return dat;
 	}

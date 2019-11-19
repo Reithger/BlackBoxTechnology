@@ -1,25 +1,20 @@
 package model.company;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-
 import controller.Data;
+import model.Model;
 import model.company.development.Factory;
 import model.company.research.Research;
 import model.world.World;
-import model.world.market.Product;
 
 public class Company {
-	
 	
 	public final static String TITLE = "title";
 	public final static String MONEY = "money";
 	public final static String STOCK = "stock";
 	public final static String RESEARCH = "research";
 	public final static String FACTORY = "factory";
-	
-	public final static String PATH_FACTORY_LIST = "dta/Factories.dta";
+	public final static String BUILDABLE = "factory_list";
 	
 //---  Instance Variables   -------------------------------------------------------------------
 
@@ -42,7 +37,7 @@ public class Company {
 		stock = new HashMap<String, Double>();
 		money = 0;
 		try {
-			factoryList = new Data(new File(PATH_FACTORY_LIST));
+			factoryList = new Data(Model.PATH_FACTORIES);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -55,7 +50,7 @@ public class Company {
 	
 	public Company(World w, Data dat) {
 		try {
-			factoryList = new Data(new File(PATH_FACTORY_LIST));
+			factoryList = new Data(Model.PATH_FACTORIES);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -120,7 +115,8 @@ public class Company {
 	}
 		
 	public Data exportData() {
-		Data dat = new Data(title);
+		Data dat = new Data();
+		dat.setTitle(title);
 		dat.addString(title, TITLE);
 		dat.addDouble(money, MONEY);
 		Data[] factori = new Data[factory.keySet().size()];
@@ -129,7 +125,8 @@ public class Company {
 			factori[i] = factory.get(s).exportData();
 		}
 		dat.addDataArray(FACTORY, factori);
-		Data prod = new Data(STOCK);
+		Data prod = new Data();
+		prod.setTitle(STOCK);
 		for(String s : stock.keySet()) {
 			prod.addDouble(stock.get(s), s);
 		}

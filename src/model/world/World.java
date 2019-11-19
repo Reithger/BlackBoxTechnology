@@ -1,10 +1,9 @@
 package model.world;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import controller.Data;
+import model.Model;
 import model.world.country.Country;
 import model.world.errata.Time;
 import model.world.market.Product;
@@ -13,7 +12,7 @@ public class World {
 	
 	public final static String TITLE = "world";
 	public final static String PRODUCTS = "products";
-	public final static String PATH_PRODUCTS = "dta/Products.dta";
+	public final static String PATH_PRODUCTS = Model.PATH_PRODUCTS;
 
 	private Time time;
 	private ArrayList<Country> countries;
@@ -25,7 +24,7 @@ public class World {
 		countries = new ArrayList<Country>();
 		Data d = null;
 		try {
-			d = new Data(new File(PATH_PRODUCTS));
+			d = new Data(PATH_PRODUCTS);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -41,7 +40,7 @@ public class World {
 		countries = new ArrayList<Country>();
 		Data d = null;
 		try {
-			d = new Data(new File(PATH_PRODUCTS));
+			d = new Data(PATH_PRODUCTS);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -68,7 +67,8 @@ public class World {
 	}
 	
 	public Data exportData() {
-		Data dat = new Data(TITLE);
+		Data dat = new Data();
+		dat.setTitle(TITLE);
 		
 		return dat;
 	}

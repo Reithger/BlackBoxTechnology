@@ -1,9 +1,6 @@
 package view.screen;
 
-import java.awt.Graphics;
 import java.util.HashMap;
-import java.util.LinkedList;
-
 import controller.Data;
 import view.Visual;
 import visual.panel.Panel;
@@ -104,6 +101,10 @@ public abstract class Screen {
 		return getPlayer().getDatasetArray("stock");
 	}	
 
+	public static Data getReference(String ref) {
+		return visual.getReference(ref);
+	}
+	
 //---  Setter Methods   -----------------------------------------------------------------------
 	
 	public static void updateCycle(int in) {
