@@ -9,19 +9,27 @@ import visual.frame.WindowFrame;
 
 public class Core {
 
-	private Visual visual;
-	private Model model;
+//---  Constants   ----------------------------------------------------------------------------
 	
 	private final static int width = 840;
 	private final static int height = 560;
 	
 	private final static int SELECT_WIDTH = 400;
 	private final static int SELECT_HEIGHT = 500;
+	
+//---  Instance Variables   -------------------------------------------------------------------
+	
+	private Visual visual;
+	private Model model;
 
+//---  Constructors   -------------------------------------------------------------------------
+	
 	public Core() {
 		visual = new Visual(width, height, this);		
 		model = null;
 	}
+	
+//---  Operations   ---------------------------------------------------------------------------
 	
 	public boolean startGame(String name) {
 		try {
@@ -87,8 +95,14 @@ public class Core {
 			public void keyBehaviour(char event) {
 				
 			}
+			
+			@Override
+			public void addBackground(String name) {
+				super.addBackground(name);
+				removeElementPrefixed("money");
+			}
 		};
-		lP.addBackground("back", "/assets/background/back3.png");
+		lP.addBackground("back");
 		for(int i = 0; i < fS.length; i++) {
 			lP.addButtonCustom("file_" + i, 10, SELECT_WIDTH/2, SELECT_HEIGHT * 2 / 10 + i * SELECT_HEIGHT / 7, SELECT_WIDTH / 2, SELECT_HEIGHT/10, fS[i].getName(), 2, i);
 		}
@@ -107,6 +121,12 @@ public class Core {
 	public boolean upgradeEquipment(String factory, String title) {
 		return model.getPlayer().getFactories().get(factory).upgradeEquipment(title);
 	}
+	
+	public void iterate() {
+		model.iterate();
+	}
+	
+//---  Getter Methods   -----------------------------------------------------------------------
 	
 	public Data getReference(String ref) {
 		return model.getReference(ref);

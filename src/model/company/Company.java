@@ -35,7 +35,7 @@ public class Company {
 		factory = new HashMap<String, Factory>();
 		research = new Research();
 		stock = new HashMap<String, Double>();
-		money = 0;
+		money = 100;
 		try {
 			factoryList = new Data(Model.PATH_FACTORIES);
 		}

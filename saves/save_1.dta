@@ -9,7 +9,7 @@
 				"image" : s* : ["/assets/art/fac3.png", "/assets/art/fac4.png"],
 				"equipment" : D* : [
 					"Burner" : D : {
-						"image" : s* : ["/assets/art/burner5.png", "/assets/art/burner6.png", "/assets/art/burner5.png", "/assets/art/burner7.png"],
+						"image" : s* : ["/assets/art/burner7.png", "/assets/art/burner5.png", "/assets/art/burner6.png", "/assets/art/burner5.png", "/assets/art/burner7.png", "/assets/art/burner5.png"],
 						"product" : s : "General Goods",
 						"cost" : d* : [-3.0, -5.0, -6.0, -12.0],
 						"level" : i : 0,
@@ -26,7 +26,7 @@
 				"type" : s : "Smokestack",
 			};
 		]
-		"money" : d : 0.0,
+		"money" : d : 100.0,
 		"title" : s : "company",
 		"stock" : D : {
 			"General" : d : 0.0,

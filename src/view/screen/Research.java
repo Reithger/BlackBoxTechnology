@@ -1,19 +1,20 @@
 package view.screen;
 
-import java.awt.Color;
-
 import view.Visual;
-import visual.panel.ElementPanel;
 
 public class Research extends Screen{
 
+//---  Constructors   -------------------------------------------------------------------------
+	
 	public Research(int x, int y, int inWidth, int inHeight, Visual parent, String inName) {
 		super(x, y, inWidth, inHeight, parent, inName);
 	}
+	
+//---  Operations   ---------------------------------------------------------------------------
 
 	@Override
 	public void initialize() {
-		ElementPanel center = new ElementPanel(0, 0, getWidth(), getHeight()) {
+		center = new LocalPanel(0, 0, getWidth(), getHeight()) {
 			public void clickBehaviour(int event) {
 				getVisual().triggerEvent(event);
 			}
@@ -22,13 +23,15 @@ public class Research extends Screen{
 				getVisual().triggerEvent(event);
 			}
 		};
-		center.addRectangle("back", 0, 0, 0, getWidth(), getHeight(), ElementPanel.NON_CENTERED, new Color(255,255, 255));
+		center.addBackground("background");
+		
+		center.addButtonCustom("back", 10, getWidth() / 10, getHeight() * 9 / 10, getWidth() / 10, getHeight() / 10, "Back", 2, Visual.DEVELOPMENT_NAVIGATE_NEXUS);
 		
 		addPanel("Research", center);
 	}
 	
 	public void update() {
-		
+		center.addMoney("money", 2, getWidth() / 2, getHeight() / 10, getWidth() / 5, getHeight() / 10);
 	}
 
 }

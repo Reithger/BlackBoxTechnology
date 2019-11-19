@@ -1,12 +1,12 @@
 package model.company.development;
 
 import java.util.ArrayList;
-
 import controller.Data;
-import model.world.market.Product;
 import model.world.people.Person;
 
 public class Equipment {
+	
+//---  Constants   ----------------------------------------------------------------------------
 	
 	public final static String NAME = "name";
 	public final static String TYPE = "type";
@@ -17,6 +17,8 @@ public class Equipment {
 	public final static String LEVEL = "level";
 	public final static String PERSONNEL = "personnel";
 	public final static String MAINTENANCE = "maintenance";
+	
+//---  Instance Variables   -------------------------------------------------------------------
 	
 	private ArrayList<Person> assigned;
 	private String product;
@@ -29,7 +31,6 @@ public class Equipment {
 	private int[] personnel;
 	private double[] maintenance;
 	private String[] images;
-	
 	
 //---  Constructors   -------------------------------------------------------------------------
 	

@@ -7,6 +7,8 @@ import model.world.World;
 
 public class Model {
 	
+//---  Constants   ----------------------------------------------------------------------------
+	
 	public final static String NAME = "name";
 	public final static String WORLD = "world";
 	public final static String PLAYER = "player";
@@ -18,12 +20,15 @@ public class Model {
 	public final static String PATH_RESEARCH = "/assets/dta/Research.dta";
 	public final static String PATH_MECHANICS = "/assets/dta/Mechanics.dta";
 	
+//---  Instance Variables   -------------------------------------------------------------------
+	
 	private HashMap<String, Data> reference;
-
 	private String name;
 	private World world;
 	private Company player;
 		
+//---  Constructors   -------------------------------------------------------------------------
+	
 	public Model(String nom, Data dat) {
 		name = dat.getString(NAME);
 		world = new World(dat.getDataset(WORLD));
@@ -38,15 +43,15 @@ public class Model {
 		reference = new HashMap<String, Data>();
 	}
 	
-	public Data exportData() {
-		Data dat = new Data();
-		dat.setTitle(name);
-		dat.addString(name, NAME);
-		dat.addData(WORLD, world.exportData());
-		dat.addData(PLAYER, player.exportData(PLAYER));
-		return dat;
+//---  Operations   ---------------------------------------------------------------------------
+	
+	public void iterate() {
+		player.iterate();
+		world.iterate();
 	}
-		
+	
+//---  Getter Methods   -----------------------------------------------------------------------
+	
 	public Company getPlayer() {
 		return player;
 	}
@@ -62,5 +67,16 @@ public class Model {
 		}
 		return reference.get(ref);
 	}
+
+//---  Mechanics   ----------------------------------------------------------------------------
 	
+	public Data exportData() {
+		Data dat = new Data();
+		dat.setTitle(name);
+		dat.addString(name, NAME);
+		dat.addData(WORLD, world.exportData());
+		dat.addData(PLAYER, player.exportData(PLAYER));
+		return dat;
+	}
+		
 }

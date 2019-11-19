@@ -2,10 +2,13 @@ package view.screen;
 
 import java.util.HashMap;
 import controller.Data;
+import model.company.Company;
 import view.Visual;
 import visual.panel.Panel;
 
 public abstract class Screen {
+
+//---  Instance Variables   -------------------------------------------------------------------
 		
 	private static Visual visual;
 	private String name;
@@ -86,6 +89,9 @@ public abstract class Screen {
 	}
 	
 	public static Data getPlayer() {
+		if(getModel() == null) {
+			return null;
+		}
 		return getModel().getDataset("player");
 	}
 	
@@ -103,6 +109,13 @@ public abstract class Screen {
 
 	public static Data getReference(String ref) {
 		return visual.getReference(ref);
+	}
+	
+	public static double getMoney() {
+		if(getModel() == null) {
+			return 0;
+		}
+		return getPlayer().getDouble(Company.MONEY);
 	}
 	
 //---  Setter Methods   -----------------------------------------------------------------------

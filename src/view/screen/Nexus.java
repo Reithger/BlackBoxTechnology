@@ -2,13 +2,16 @@ package view.screen;
 
 import model.company.development.Factory;
 import view.Visual;
-import visual.panel.ElementPanel;
 
 public class Nexus extends Screen{
 
+//---  Constructors   -------------------------------------------------------------------------
+	
 	public Nexus(int x, int y, int inWidth, int inHeight, Visual parent, String inName) {
 		super(x, y, inWidth, inHeight, parent, inName);
 	}
+	
+//---  Operations   ---------------------------------------------------------------------------
 
 	@Override
 	public void initialize() {
@@ -24,10 +27,10 @@ public class Nexus extends Screen{
 				}
 			}
 		};
-		center.addBackground("back", "/assets/background/back2.png");
+		center.addBackground("back");
 		
-		center.addButton("but1", 0, getWidth() / 4, getHeight() / 2, getWidth() / 3, getHeight() * 3 / 5, Visual.NEXUS_NAVIGATE_RESEARCH, ElementPanel.CENTERED);
-		center.addButton("but2", 0, getWidth() * 3 / 4, getHeight() / 2, getWidth() / 3, getHeight() * 3 / 5,  Visual.NEXUS_NAVIGATE_DEVELOPMENT, ElementPanel.CENTERED);
+		center.addButtonCustom("but1", 1, getWidth() / 4, getHeight() / 2, getWidth() / 3, getHeight() * 3 / 5, "", 2, Visual.NEXUS_NAVIGATE_RESEARCH);
+		center.addButtonCustom("but2", 0, getWidth() * 3 / 4, getHeight() / 2, getWidth() / 3, getHeight() * 3 / 5, "", 2, Visual.NEXUS_NAVIGATE_DEVELOPMENT);
 
 		center.addBorderCustomBacking("dev", 1, getWidth() / 4 - getWidth() / 6, getHeight () / 2 - getHeight() * 3 / 10, getWidth() / 3, getHeight() * 3 / 5, 1, false, false);
 		center.addBorderCustomBacking("res", 1, getWidth() * 3 / 4 - getWidth() / 6,  getHeight() / 2 - getHeight() * 3 / 10, getWidth() / 3, getHeight() * 3 / 5, 1, false, false);
@@ -38,12 +41,15 @@ public class Nexus extends Screen{
 		center.addBorderCustom("dev_tit", 13, getWidth() / 4 - getWidth() / 6, getHeight () / 2 - getHeight() * 3 / 10, getWidth() / 3, getHeight() / 10, 1, false, false);
 		center.addBorderCustom("res_tit", 13, getWidth() * 3 / 4 - getWidth() / 6,  getHeight() / 2 - getHeight() * 3 / 10, getWidth() / 3, getHeight() / 10, 1, false, false);
 
+		center.addButtonCustom("but3", 1, getWidth() / 2, getHeight() * 9 / 10, getWidth() / 5, getHeight() / 10, "News", 2, Visual.NEXUS_NAVIGATE_NEWS);
+		
 		addPanel("Nexus", center);
 	}
 
 	public void update() {
 		updateCycle(getCycle() + 1);
 		if(getModel() != null && center != null && getCycle() % LocalPanel.ANIMATION_RATE == 0) {
+			center.addMoney("money", 2, getWidth() / 2, getHeight() / 10, getWidth() / 5, getHeight() / 10);
 			center.addFactoryDecal("fac_1", 10, getWidth() * 3 / 4, getHeight() / 2, getWidth() / 3, getHeight() * 3 / 5, getCurrentFactory(), getCycle());
 			if(Screen.getFactories().length > 1) {
 				center.addImage("lef", 100, getWidth() * 3 / 4 - getWidth() * 3 / 24, getHeight() / 2, true, "/assets/UI/left_arrow.png", 4);

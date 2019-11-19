@@ -1,21 +1,29 @@
 package view.screen;
 
-import java.awt.Color;
-
 import controller.Data;
 import model.Model;
+import model.company.development.Equipment;
 import model.company.development.Factory;
 import view.Visual;
 
 public class Development extends Screen{
 	
+//---  Constants   ----------------------------------------------------------------------------
+	
 	public final static int EQUIPMENT_ROWS = 2;
 	public final static int EQUIPMENT_COLUMNS = 4;
 	public final static int ANIMATION_CYCLE = 20;
 	
+//---  Instance Variables   -------------------------------------------------------------------
+	
+
+//---  Constructors   -------------------------------------------------------------------------
+	
 	public Development(int x, int y, int inWidth, int inHeight, Visual parent, String inName) {
 		super(x, y, inWidth, inHeight, parent, inName);
 	}
+
+//---  Operations   ---------------------------------------------------------------------------
 
 	@Override
 	public void initialize() {
@@ -30,11 +38,11 @@ public class Development extends Screen{
 			}
 		};
 		
-		center.addBackground("background", "/assets/background/back3.png");
+		center.addBackground("background");
 		
-		center.addButtonCustom("back", 10, getWidth() / 10, getHeight() * 9 / 10, getWidth() / 10, getHeight() / 10, "Back", 1, Visual.DEVELOPMENT_NAVIGATE_NEXUS);
+		center.addButtonCustom("back", 10, getWidth() / 10, getHeight() * 9 / 10, getWidth() / 10, getHeight() / 10, "Back", 2, Visual.DEVELOPMENT_NAVIGATE_NEXUS);
 		
-		center.addBorderCustom("menu", 1000, getWidth() * 7 / 8, getHeight() / 2, getWidth() / 4, getHeight() - 6, 2, true, false);
+		center.addBorderCustom("menu", 1000, getWidth() * 7 / 8, getHeight() / 2, getWidth() / 4, getHeight(), 2, true, false);
 		
 		addPanel("Development", center);
 	}
@@ -42,6 +50,7 @@ public class Development extends Screen{
 	public void update() {
 		updateCycle(getCycle() + 1);
 		if(getModel() != null && center != null && getCycle() % LocalPanel.ANIMATION_RATE == 0) {
+			center.addMoney("money", 2, getWidth() / 2, getHeight() / 10, getWidth() / 5, getHeight() / 10);
 			Data factory = getFactories()[Screen.getFocusValue(Visual.FOCUS_FACTORY_INDEX)];
 			Data[] equipment = factory.getDatasetArray(Factory.EQUIPMENT);
 			int page = 0;
@@ -63,7 +72,7 @@ public class Development extends Screen{
 								
 				if(i + (page * limit) < equipment.length) {
 					Data d = equipment[i + (page * limit)];
-					center.addEquipmentDecal(factory.getString(Factory.TITLE) + "_" + i, 10, x, y, wid, hei, d, Visual.DEVELOPMENT_EQUIPMENT_SELECT_START + i + (page * limit), getCycle());
+					center.addEquipmentDecal(factory.getString(Factory.TITLE) + "_" + d.getString(Equipment.NAME), 10, x, y, wid, hei, d, Visual.DEVELOPMENT_EQUIPMENT_SELECT_START + i + (page * limit), getCycle());
 					center.removeElement("new_equi_" + i);
 				}
 				else {
@@ -93,7 +102,4 @@ public class Development extends Screen{
 		}
 	}
 	
-	public void printTemporaryMessage(int x, int y, String phrase, int timer) {
-		center.addFadingText("fade", 200, x, y, phrase, 3, timer);
-	}
 }

@@ -17,6 +17,8 @@ import visual.frame.WindowFrame;
 
 public class Visual {
 	
+//---  Constants   ----------------------------------------------------------------------------
+	
 	public final static int FOCUS_SIZE = 100;
 	
 	public final static int FOCUS_FACTORY_INDEX = 0;
@@ -97,6 +99,8 @@ public class Visual {
 		current = screen;
 	}
 	
+//---  Setter Methods   -----------------------------------------------------------------------
+
 	public void updateModel(Data dat) {
 		model = dat;
 	}
@@ -145,6 +149,9 @@ public class Visual {
 				setActive("development");
 				Screen.updateFocusValue(FOCUS_EQUIPMENT_INDEX, -1);
 				Screen.updateFocusValue(FOCUS_EQUIPMENT_PAGE_INDEX, 0);
+				break;
+			case NEXUS_NAVIGATE_NEWS :
+				setActive("news");
 				break;
 			case NEXUS_INCREMENT_FACTORY :
 				Screen.updateFocusValue(FOCUS_FACTORY_INDEX, (Screen.getFocusValue(FOCUS_FACTORY_INDEX) + 1) % Screen.getFactories().length);
@@ -206,6 +213,9 @@ public class Visual {
 			  if(!core.upgradeEquipment(factor.getString(Factory.TITLE), factor.getDatasetArray(Factory.EQUIPMENT)[Screen.getFocusValue(FOCUS_EQUIPMENT_INDEX)].getString(Equipment.NAME))) {
 				  Screen s = screens.get(current);
 			      s.printTemporaryMessage(s.getWidth() / 2, s.getHeight() * 9 / 10, "Insufficient Funds", 30);
+			  }
+			  else {
+				  core.updateVisualModel();
 			  }
 			  break;
 		  default : break;

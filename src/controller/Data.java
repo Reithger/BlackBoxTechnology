@@ -1,4 +1,5 @@
 package controller;
+
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
@@ -6,12 +7,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import javax.imageio.ImageIO;
-
-import visual.frame.WindowFrame;
-import visual.panel.ElementPanel;
-
 public class Data {
+	
+//---  Constants   ----------------------------------------------------------------------------
 	
 	private final static String INT = "i";
 	private final static String INT_ARR = "i*";

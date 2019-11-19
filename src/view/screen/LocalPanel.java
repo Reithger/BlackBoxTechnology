@@ -2,14 +2,11 @@ package view.screen;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
-
 import javax.imageio.ImageIO;
-
 import controller.Data;
 import model.company.development.Equipment;
 import model.company.development.Factory;
@@ -17,10 +14,15 @@ import visual.panel.ElementPanel;
 
 public class LocalPanel extends ElementPanel{
 	
+//---  Constants   ----------------------------------------------------------------------------
+	
 	public final static int ANIMATION_RATE = 10;
 
+//---  Instance Variables   -------------------------------------------------------------------
+	
 	private LinkedList<String> decayObject;
 	private HashMap<String, Integer> decayTimer;
+	private double money;
 	
 //---  Constructors   -------------------------------------------------------------------------
 	
@@ -32,7 +34,8 @@ public class LocalPanel extends ElementPanel{
 	
 //---  Composite Methods   --------------------------------------------------------------------
 	
-	public void addBackground(String name, String path) {
+	public void addBackground(String name) {
+		String path = "/assets/background/back6.png";
 		addImage(name, 0, 0, 0, ElementPanel.NON_CENTERED, path, 14);
 		addBorderCustom("border", 100, 0, 0, getWidth(), getHeight(), 2, false, true);
 	}
@@ -156,7 +159,7 @@ public class LocalPanel extends ElementPanel{
 	
 	public void addButtonCustom(String name, int priority, int x, int y, int width, int height, String phrase, int scaleText, int code) {
 		addBorderCustomBacking(name + "_bord", priority, x, y, width, height, 1, true, false);
-		addTextCustom(name + "_img", priority + 1, x, y, phrase, scaleText);
+		addTextCustom(name + "_tex", priority + 1, x, y, phrase, scaleText);
 		addButton(name + "_butt", priority, x, y, width, height, code, ElementPanel.CENTERED);
 	}
 
@@ -203,23 +206,23 @@ public class LocalPanel extends ElementPanel{
 	
 	public void addEquipmentInfo(String name, int priority, int x, int y, int width, int height, Data dat, int cycle, int code) {
 		String imgPath = dat.getStringArray(Equipment.IMAGE)[cycle % (ANIMATION_RATE * dat.getStringArray(Equipment.IMAGE).length) / ANIMATION_RATE];
-		
+		addBorderCustomBacking(name, priority, x, y, width, height, 2, true, false);
 		int level = dat.getInt(Equipment.LEVEL);
-		addTextCustom(name + "_nom", priority, x, y - height * 7 / 16, "Name: " + dat.getString(Equipment.NAME), 2);
-		addTextCustom(name + "_typ", priority, x, y - height * 6 / 16, dat.getString(Equipment.TYPE) + ": " + level, 2);
-		addTextCustom(name + "_makes_title", priority, x, y - height * 5 / 16, "Producing: ", 2);
+		addTextCustom(name + "_nom", priority + 1, x, y - height * 7 / 16, "Name: " + dat.getString(Equipment.NAME), 2);
+		addTextCustom(name + "_typ", priority + 1, x, y - height * 6 / 16, dat.getString(Equipment.TYPE) + ": " + level, 2);
+		addTextCustom(name + "_makes_title", priority + 1, x, y - height * 5 / 16, "Producing: ", 2);
 
-		addTextCustom(name + "_makes", priority, x, y - height * 17 / 64, dat.getString(Equipment.PRODUCT), 2);
+		addTextCustom(name + "_makes", priority + 1, x, y - height * 17 / 64, dat.getString(Equipment.PRODUCT), 2);
 		
-		addImage(name + "_fac", priority + 5, x, y - height * 9 / 64, true, imgPath, 3);
+		addImage(name + "_fac", priority + 1 + 5, x, y - height * 9 / 64, true, imgPath, 3);
 		
-		addTextCustom(name + "_produc", priority, x, y, "Production: " + dat.getDoubleArray(Equipment.PRODUCTION)[level], 2);
-		addTextCustom(name + "_mainten", priority, x, y + height * 1 / 16, "Maintenance: " + dat.getDoubleArray(Equipment.MAINTENANCE)[level], 2);
-		addTextCustom(name + "_person", priority, x, y + height * 2 / 16, "Personnel: " + dat.getStringArray(Equipment.PERSONNEL).length, 2);
+		addTextCustom(name + "_produc", priority + 1, x, y, "Production: " + dat.getDoubleArray(Equipment.PRODUCTION)[level], 2);
+		addTextCustom(name + "_mainten", priority + 1, x, y + height * 1 / 16, "Maintenance: " + dat.getDoubleArray(Equipment.MAINTENANCE)[level], 2);
+		addTextCustom(name + "_person", priority + 1, x, y + height * 2 / 16, "Personnel: " + dat.getStringArray(Equipment.PERSONNEL).length, 2);
 
 		if(level + 1 < dat.getDoubleArray(Equipment.COST).length) {
-			addButtonCustom(name + "_upg", priority, x, y + height * 4 / 16, width * 2 / 3, height * 2 / 16, "Upgrade", 2, code);
-			addTextCustom(name + "_cost", priority, x, y + height * 6 / 16, "Cost: " + dat.getDoubleArray(Equipment.COST)[level + 1], 2);
+			addButtonCustom(name + "_upg", priority + 1, x, y + height * 4 / 16, width * 2 / 3, height * 2 / 16, "Upgrade", 2, code);
+			addTextCustom(name + "_cost", priority + 1, x, y + height * 6 / 16, "Cost: " + dat.getDoubleArray(Equipment.COST)[level + 1], 2);
 		}
 	}
 
@@ -229,6 +232,14 @@ public class LocalPanel extends ElementPanel{
 		addTextCustom(name + "_nom", priority + 10, x, y - height / 4, "Type: " + dat.getString(Equipment.TYPE), 2);
 		addImage(name + "_img", priority + 5, x, y + height / 8, true, imgPath, 2);
 		addButton(name + "_but", 10, x, y, width, height, code, true);
+	}
+	
+	public void addMoney(String name, int priority, int x, int y, int width, int height) {
+		if(money != Screen.getMoney()) {
+			removeElementPrefixed("money_tex");
+			money = Screen.getMoney();
+		}
+		addButtonCustom(name, priority, x, y, width, height, "Money: " + money, 2, -1);
 	}
 	
 //---  Mechanics   ----------------------------------------------------------------------------

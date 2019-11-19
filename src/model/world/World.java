@@ -10,13 +10,19 @@ import model.world.market.Product;
 
 public class World {
 	
+//---  Constants   ----------------------------------------------------------------------------
+	
 	public final static String TITLE = "world";
 	public final static String PRODUCTS = "products";
 	public final static String PATH_PRODUCTS = Model.PATH_PRODUCTS;
 
+//---  Instance Variables   -------------------------------------------------------------------
+	
 	private Time time;
 	private ArrayList<Country> countries;
 	private HashMap<String, Product> products;
+	
+//---  Constructors   -------------------------------------------------------------------------
 	
 	public World(Data dat) {
 		products = new HashMap<String, Product>();
@@ -50,6 +56,8 @@ public class World {
 		}
 	}
 	
+//---  Operations   ---------------------------------------------------------------------------
+	
 	public void iterate() {
 		
 	}
@@ -58,6 +66,8 @@ public class World {
 		
 	}
 	
+//---  Getter Methods   -----------------------------------------------------------------------
+	
 	public HashMap<String, Product> getProducts(){
 		return products;
 	}
@@ -65,6 +75,8 @@ public class World {
 	public Product getProduct(String nom){
 		return products.get(nom);
 	}
+	
+//---  Mechanics   ----------------------------------------------------------------------------
 	
 	public Data exportData() {
 		Data dat = new Data();
