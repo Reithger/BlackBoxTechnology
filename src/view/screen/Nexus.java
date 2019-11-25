@@ -27,7 +27,7 @@ public class Nexus extends Screen{
 				}
 			}
 		};
-		center.addBackground("back");
+		center.addBackground("back", "/assets/background/back6.png");
 		
 		center.addButtonCustom("but1", 1, getWidth() / 4, getHeight() / 2, getWidth() / 3, getHeight() * 3 / 5, "", 2, Visual.NEXUS_NAVIGATE_RESEARCH);
 		center.addButtonCustom("but2", 0, getWidth() * 3 / 4, getHeight() / 2, getWidth() / 3, getHeight() * 3 / 5, "", 2, Visual.NEXUS_NAVIGATE_DEVELOPMENT);

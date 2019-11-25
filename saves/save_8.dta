@@ -1,0 +1,38 @@
+"save_8" : D : {
+	"world" : D : {
+	};
+	"name" : s : "save_8",
+	"player" : D : {
+		"factory" : D* : [
+			"Smokestack" : D : {
+				"owner" : s : "company",
+				"image" : s* : ["/assets/art/fac3.png", "/assets/art/fac4.png"],
+				"equipment" : D* : [
+					"Burner" : D : {
+						"image" : s* : ["/assets/art/burner7.png", "/assets/art/burner5.png", "/assets/art/burner6.png", "/assets/art/burner5.png", "/assets/art/burner7.png", "/assets/art/burner5.png"],
+						"product" : s : "General Goods",
+						"cost" : d* : [-3.0, -5.0, -6.0, -12.0],
+						"level" : i : 0,
+						"production" : d* : [1.0, 2.0, 3.0],
+						"name" : s : "Burner",
+						"personnel" : s* : [],
+						"type" : s : "Burner",
+						"maintenance" : d* : [-1.0, -2.0, -2.0],
+					};
+				]
+				"title" : s : "Smokestack",
+				"employees" : D* : [
+				]
+				"type" : s : "Smokestack",
+			};
+		]
+		"money" : d : 100.0,
+		"title" : s : "company",
+		"stock" : D : {
+			"General" : d : 0.0,
+			"Goods" : d : 0.0,
+		};
+		"research" : D : {
+		};
+	};
+};

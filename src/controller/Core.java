@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Font;
 import java.io.File;
 import java.util.ArrayList;
 import model.Model;
@@ -97,12 +98,12 @@ public class Core {
 			}
 			
 			@Override
-			public void addBackground(String name) {
-				super.addBackground(name);
+			public void addBackground(String name, String path) {
+				super.addBackground(name, path);
 				removeElementPrefixed("money");
 			}
 		};
-		lP.addBackground("back");
+		lP.addBackground("back", "/assets/background/back6.png");
 		for(int i = 0; i < fS.length; i++) {
 			lP.addButtonCustom("file_" + i, 10, SELECT_WIDTH/2, SELECT_HEIGHT * 2 / 10 + i * SELECT_HEIGHT / 7, SELECT_WIDTH / 2, SELECT_HEIGHT/10, fS[i].getName(), 2, i);
 		}
@@ -130,6 +131,18 @@ public class Core {
 	
 	public Data getReference(String ref) {
 		return model.getReference(ref);
+	}
+	
+//---  Mechanics   ----------------------------------------------------------------------------
+	
+	public static void errorReport(String in) {
+		WindowFrame wf = new WindowFrame(300, 300);
+		LocalPanel lp = new LocalPanel(0, 0, 300, 300);
+		if(in == null)
+			in = "";
+		lp.addText("te", 0, 0, 0, 300, 300, in, new Font("Serif", Font.BOLD, 8), false, false, true);
+		
+		wf.addPanelToScreen(lp);
 	}
 	
 }

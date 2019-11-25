@@ -1,5 +1,6 @@
 package view.screen;
 
+import controller.Core;
 import view.Visual;
 
 public class Title extends Screen{
@@ -26,14 +27,14 @@ public class Title extends Screen{
 			}
 			
 			@Override
-			public void addBackground(String name) {
-				super.addBackground(name);
+			public void addBackground(String name, String path) {
+				super.addBackground(name, path);
 				removeElementPrefixed("money");
 			}
 		};
-		
-		center.addBackground("back");
-		
+
+		center.addBackground("back", "/assets/background/back6.png");
+
 		center.addBorderCustomBacking("bord", 1, getWidth()/2, getHeight() / 3, getWidth() * 3 / 4, getHeight() / 4, 2, true, false);
 		center.addTextCustom("title", 10, getWidth() / 2, getHeight() / 3, "Black Box Technologies", 4);
 		

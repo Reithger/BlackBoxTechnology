@@ -1,7 +1,13 @@
 package controller;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,9 +45,11 @@ public class Data {
 	public Data(String path) throws Exception{
 		data = new HashMap<String, Object>();
 		types = new HashMap<String, String>();
-		File f = retrieveFile(path);
-		RandomAccessFile raf = new RandomAccessFile(f, "r");
+		
+		InputStream in = retrieveInputStream(path);
+		BufferedReader raf = new BufferedReader(new InputStreamReader(in));
 		String line = raf.readLine();
+		
 		LinkedList<Data> next = new LinkedList<Data>();
 		LinkedList<ArrayList<Data>> collec = new LinkedList<ArrayList<Data>>();
 		LinkedList<String> names = new LinkedList<String>();
@@ -296,7 +304,7 @@ public class Data {
 	}
 	
 	private String toString(int depth){
-		if(getDataset(title) != null && data.values().size() == 1) {
+		if(types.get(title) == DAT && data.values().size() == 1) {
 			return getDataset(title).toString();
 		}
 		StringBuilder out = new StringBuilder();
@@ -353,20 +361,19 @@ public class Data {
 		return in.replaceAll("(?<![\\\\])\",", "").replaceAll("(?<![\\\\])\"", "").replaceAll("\\\\\"", "\"");
 	}
 
-	public File retrieveFile(String pathIn) {
+	public InputStream retrieveInputStream(String pathIn) {
 		String path = pathIn.replace("\\", "/");
-		try {
-			return(new File(Data.class.getResource(path.substring(path.indexOf("/"))).toURI()));
-		}
-		catch(Exception e) {
+		InputStream is = Data.class.getResourceAsStream(path); 
+		if(is == null) {
 			try {
-				return(new File(path));
+				is = new FileInputStream(new File(path));
 			}
-			catch(Exception e1) {
-				e1.printStackTrace();
+			catch(Exception e) {
+				e.printStackTrace();
 				return null;
 			}
 		}
+		return is;
 	}
 	
 }

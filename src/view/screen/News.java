@@ -23,7 +23,7 @@ public class News extends Screen{
 				getVisual().triggerEvent(event);
 			}
 		};
-		center.addBackground("background");
+		center.addBackground("background", "/assets/background/back6.png");
 		
 		center.addButtonCustom("back", 10, getWidth() / 10, getHeight() * 9 / 10, getWidth() / 10, getHeight() / 10, "Back", 2, Visual.DEVELOPMENT_NAVIGATE_NEXUS);
 		

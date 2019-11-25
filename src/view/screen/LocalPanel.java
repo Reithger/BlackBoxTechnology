@@ -34,8 +34,7 @@ public class LocalPanel extends ElementPanel{
 	
 //---  Composite Methods   --------------------------------------------------------------------
 	
-	public void addBackground(String name) {
-		String path = "/assets/background/back6.png";
+	public void addBackground(String name, String path) {
 		addImage(name, 0, 0, 0, ElementPanel.NON_CENTERED, path, 14);
 		addBorderCustom("border", 100, 0, 0, getWidth(), getHeight(), 2, false, true);
 	}
